@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { Container, Heading, CenteredContent, floating, floating2 } from "../lib";
 import styled, { keyframes } from "styled-components";
 
@@ -12,7 +11,7 @@ const Banner = () => {
             <Heading>Lorem ipsum, dolor sit amet consectetur adipisicing.</Heading>
             <img src="/ether2.png" width="auto" height="auto" />
           </div>
-          <Image src="/ether.svg" width="auto" height="auto" />
+          <img src="/ether.svg" width="auto" height="auto" />
         </MainContent>
       </Container>
     </Wrapper>
