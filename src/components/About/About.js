@@ -7,9 +7,10 @@ import { BtnLink, CenteredContent, Container } from "../lib";
 const About = () => {
   const { library, chainId, account, activate } = useWeb3React();
   const { injected, contract } = useWeb3Context();
+  const [metamask, setMetamask] = React.useState(true);
 
   React.useEffect(() => {
-    console.log(window.web3 ? "i think you have metamask" : "no metamsk here");
+    setMetamask(window.web3 ? true : false);
     if (window.sessionStorage.getItem("isLoggedIn")) {
       activate(injected);
     }
@@ -51,8 +52,27 @@ const About = () => {
           </Images>
           <Content>
             <h3>Lorem ipsum dolor sit amet.</h3>
-            {chainId && chainId !== 56 && <h1>Incorrect chain!</h1>}
-            {!account && <h1>It's seems that you're not logged in</h1>}
+            {chainId && chainId !== 56 && (
+              <h1 style={{ color: "tomato" }}>
+                {" "}
+                <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b> Whoops, you're not in the BNB
+                network
+              </h1>
+            )}
+            {!metamask && (
+              <h1 style={{ color: "tomato" }}>
+                {" "}
+                <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b> Whoops, we couldn't find
+                ethereum in youre browser, please install MetaMask
+              </h1>
+            )}
+            {!account && (
+              <h1 style={{ color: "tomato" }}>
+                {" "}
+                <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b> It's seems that you're not
+                logged in
+              </h1>
+            )}
             <p>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos quos ut porro optio
               voluptatum libero rerum minima deleniti. Id, voluptatum, dolor ad quam enim earum illo
@@ -80,7 +100,7 @@ const About = () => {
             )}
             {account && chainId !== 56 && (
               <div>
-                <button onClick={() => addBNB()}>Add BNB</button>
+                <button onClick={() => addBNB()}>Add or switch to BNB</button>
               </div>
             )}
           </Content>
