@@ -1,20 +1,58 @@
+import { useWeb3React } from "@web3-react/core";
 import React from "react";
-import { CenteredContent, Container, BtnLink } from "../lib";
 import styled from "styled-components";
+import { useWeb3Context } from "../../Context/Web3Context";
+import { BtnLink, CenteredContent, Container } from "../lib";
 
 const About = () => {
+  const { library, chainId, account, activate } = useWeb3React();
+  const { injected, contract } = useWeb3Context();
+
+  React.useEffect(() => {
+    console.log(window.web3 ? "i think you have metamask" : "no metamsk here");
+    if (window.sessionStorage.getItem("isLoggedIn")) {
+      activate(injected);
+    }
+  }, []);
+
+  async function addBNB() {
+    const isBnbAdded = await library.jsonRpcFetchFunc("wallet_addEthereumChain", [
+      {
+        chainId: "0x38",
+        chainName: "Smart Chain",
+        nativeCurrency: {
+          name: "Bincance",
+          symbol: "BNB",
+          decimals: 18,
+        },
+        rpcUrls: ["https://bsc-dataseed.binance.org/"],
+        blockExplorerUrls: ["https://bscscan.com"],
+      },
+    ]);
+  }
+
+  async function getBear() {
+    try {
+      await contract.methods.getBear().send({ from: account, value: 37500000000000000 });
+    } catch (error) {
+      console.log("there was an error: " + error.message);
+    }
+  }
+
   return (
     <Container>
       <Wrapper>
         <Inner>
           <Images>
-            <img src="/black.jpg" alt="Picture of the author" />
+            <img src="/bears.jpeg" alt="Picture of the author" />
             <img src="/deer.jpg" alt="Picture of the author" />
             <BlackBox />
             <Overlay />
           </Images>
           <Content>
             <h3>Lorem ipsum dolor sit amet.</h3>
+            {chainId && chainId !== 56 && <h1>Incorrect chain!</h1>}
+            {!account && <h1>It's seems that you're not logged in</h1>}
             <p>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos quos ut porro optio
               voluptatum libero rerum minima deleniti. Id, voluptatum, dolor ad quam enim earum illo
@@ -24,6 +62,27 @@ const About = () => {
             <BtnLink>
               <a href="#bears">Watch bears</a>
             </BtnLink>
+            {!account && (
+              <button
+                onClick={() => {
+                  activate(injected);
+                  window.sessionStorage.setItem("isLoggedIn", true);
+                }}
+                style={{ zIndex: 99 }}
+              >
+                login
+              </button>
+            )}
+            {account && chainId === 56 && (
+              <div>
+                <button onClick={() => getBear()}>Get bear</button>
+              </div>
+            )}
+            {account && chainId !== 56 && (
+              <div>
+                <button onClick={() => addBNB()}>Add BNB</button>
+              </div>
+            )}
           </Content>
         </Inner>
       </Wrapper>
@@ -83,7 +142,7 @@ const Images = styled.div`
     height: 400px;
     object-fit: cover;
     object-position: 0 0;
-    transform: scaleX(-1);
+    //transform: scaleX(-1);
 
     @media (max-width: 976px) {
       width: 250px;
