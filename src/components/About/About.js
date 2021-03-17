@@ -44,7 +44,7 @@ const About = () => {
       <Wrapper>
         <Inner>
           <Images>
-            <img src="/bears.jpeg" alt="Picture of the author" />
+            <img src="/black.jpg" alt="Picture of the author" />
             <img src="/deer.jpg" alt="Picture of the author" />
             <BlackBox />
             <Overlay />
