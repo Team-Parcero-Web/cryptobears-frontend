@@ -4,6 +4,7 @@ import { theme } from "../styles/theme";
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import { GlobalProvider } from "../Context/Web3Context";
+import Head from "next/head";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -22,6 +23,9 @@ function getLibrary(provider) {
 export default function App({ Component, pageProps }) {
   return (
     <>
+      <Head>
+        <title>CryptoBears | Home</title>
+      </Head>
       <GlobalStyle />
       <GlobalProvider>
         <ThemeProvider theme={theme}>

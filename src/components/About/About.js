@@ -2,10 +2,10 @@ import { useWeb3React } from "@web3-react/core";
 import React from "react";
 import styled from "styled-components";
 import { useWeb3Context } from "../../Context/Web3Context";
-import { BtnLink, CenteredContent, Container } from "../lib";
+import { BtnLink, CenteredContent, Container, Button } from "../lib";
 
 const About = () => {
-  const { library, chainId, account, activate } = useWeb3React();
+  const { library, chainId, account, activate, error } = useWeb3React();
   const { injected, contract } = useWeb3Context();
   const [metamask, setMetamask] = React.useState(true);
 
@@ -16,8 +16,17 @@ const About = () => {
     }
   }, []);
 
+  React.useEffect(() => {
+    if (error) window.location.reload();
+  }, [error]);
+
+  function handleLogin() {
+    activate(injected);
+    window.sessionStorage.setItem("isLoggedIn", true);
+  }
+
   async function addBNB() {
-    const isBnbAdded = await library.jsonRpcFetchFunc("wallet_addEthereumChain", [
+    await library.jsonRpcFetchFunc("wallet_addEthereumChain", [
       {
         chainId: "0x38",
         chainName: "Smart Chain",
@@ -45,8 +54,8 @@ const About = () => {
       <Wrapper>
         <Inner>
           <Images>
-            <img src="/black.jpg" alt="Picture of the author" />
-            <img src="/deer.jpg" alt="Picture of the author" />
+            <img src="/bear.png" alt="Picture of the author" />
+            <img src="/bears.png" alt="Picture of the author" />
             <BlackBox />
             <Overlay />
           </Images>
@@ -74,33 +83,32 @@ const About = () => {
               </h1>
             )}
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos quos ut porro optio
-              voluptatum libero rerum minima deleniti. Id, voluptatum, dolor ad quam enim earum illo
-              dolores provident quidem rem atque alias at ducimus ex delectus temporibus, incidunt
-              beatae. At, suscipit sint. Possimus pariatur in veritatis illo non expedita minima!
+              Despite their cute looks, these mischievous bears are on the loose in the market
+              causing chaos and downtrends. Make them yours right now. Be strong, resist, and
+              don&#39;t let them hang around. You have to teach the bears who&#39;s boss, and what
+              better way to do it than by laying your gauntlet on these collectibles. If you want to
+              share the fun, sending it to a friend is your best option. Support the financial
+              market, buy a &quot;cryptobear&quot; and change the world of crypto, one collectible
+              bear at a time. What more extraordinary way to protect our investments?
             </p>
-            <BtnLink>
-              <a href="#bears">Watch bears</a>
-            </BtnLink>
+
             {!account && (
-              <button
-                onClick={() => {
-                  activate(injected);
-                  window.sessionStorage.setItem("isLoggedIn", true);
-                }}
-                style={{ zIndex: 99 }}
-              >
+              <Button className="mt-1" onClick={handleLogin} style={{ zIndex: 99 }}>
                 login
-              </button>
+              </Button>
             )}
             {account && chainId === 56 && (
               <div>
-                <button onClick={() => getBear()}>Get bear</button>
+                <Button className="mt-1" onClick={() => getBear()}>
+                  Get bear
+                </Button>
               </div>
             )}
             {account && chainId !== 56 && (
               <div>
-                <button onClick={() => addBNB()}>Add or switch to BNB</button>
+                <Button className="mt-1" onClick={() => addBNB()}>
+                  Add or switch to BNB
+                </Button>
               </div>
             )}
           </Content>
@@ -111,22 +119,24 @@ const About = () => {
 };
 
 const Wrapper = styled(CenteredContent)`
-  padding: 48px 0;
+  padding: 4rem 0;
   background-color: ${({ theme }) => theme.colors.background};
+  @media (max-width: 976px) {
+    padding: 2rem 0;
+  }
 `;
 
 const Inner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 976px) {
+    flex-direction: column;
+  }
 `;
 
 const Content = styled.div`
   width: 33%;
-
-  @media (max-width: 976px) {
-    width: 40%;
-  }
 
   h3 {
     font-weight: 700;
@@ -139,8 +149,15 @@ const Content = styled.div`
   p {
     font-size: 1.6rem;
     line-height: 3rem;
-    font-weight: 300;
-    margin: 40px 0 72px;
+    font-weight: 400;
+    margin: 4rem 0 2rem;
+  }
+
+  @media (max-width: 976px) {
+    width: 100%;
+    p {
+      margin: 30px 0;
+    }
   }
 `;
 
@@ -151,7 +168,9 @@ const Images = styled.div`
   z-index: 2;
 
   @media (max-width: 976px) {
-    height: 600px;
+    height: auto;
+    width: 100%;
+    margin-bottom: 3rem;
   }
   img:first-child {
     position: absolute;
@@ -162,11 +181,11 @@ const Images = styled.div`
     height: 400px;
     object-fit: cover;
     object-position: 0 0;
-    //transform: scaleX(-1);
 
     @media (max-width: 976px) {
-      width: 250px;
-      height: 300px;
+      width: 100%;
+      height: auto;
+      position: inherit;
     }
   }
 
@@ -180,8 +199,7 @@ const Images = styled.div`
     object-fit: cover;
 
     @media (max-width: 976px) {
-      height: 260px;
-      width: 300px;
+      display: none;
     }
   }
 `;
@@ -191,20 +209,19 @@ const BlackBox = styled.div`
   height: 300px;
   width: 300px;
   border-radius: 1000px;
-  z-index: 1;
+  z-index: -1;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: 200px;
   clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
   @media (max-width: 976px) {
-    height: 200px;
-    width: 200px;
+    display: none;
   }
 `;
 
 const Overlay = styled(BlackBox)`
-  z-index: 2;
+  z-index: 0;
   background-color: ${({ theme }) => theme.colors.purple};
   mix-blend-mode: overlay;
 `;

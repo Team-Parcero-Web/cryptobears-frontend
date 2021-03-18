@@ -39,3 +39,30 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/* Utils */
+
+.m-1 {
+  margin: 1rem;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+.mt-2 {
+  margin-top: 1.4rem;
+}
+.mt-3 {
+  margin-top: 2rem;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+.mb-2 {
+  margin-bottom: 1.4rem;
+}
+
+.w-3 {
+  width: 150px;
+}

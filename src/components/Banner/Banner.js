@@ -9,10 +9,11 @@ const Banner = () => {
       <Container>
         <MainContent>
           <div className="left">
-            <Heading>Lorem ipsum, dolor sit amet consectetur adipisicing.</Heading>
-            <img src="/ether2.png" width="auto" height="auto" />
+            <Heading>CryptoBears</Heading>
+            <Heading>Welcome to the forest of these restless bears</Heading>
+            <img src="/ether2.png" />
           </div>
-          <Image src="/ether.svg" width="auto" height="auto" />
+          <img src="/ether.svg" />
         </MainContent>
       </Container>
     </Wrapper>
@@ -26,6 +27,11 @@ const Wrapper = styled.div`
   align-items: center;
   background-color: #f1c8db;
   height: 700px;
+
+  @media (max-width: 768px) {
+    height: 600px;
+    align-items: start;
+  }
 `;
 
 const MainContent = styled(CenteredContent)`
@@ -49,5 +55,25 @@ const MainContent = styled(CenteredContent)`
     width: 500px;
     height: 500px;
     animation: ${floating} 6s ease-in-out infinite;
+  }
+
+  @media (max-width: 768px) {
+    display: grid;
+    margin-top: 10rem;
+    justify-items: center;
+
+    .left {
+      max-width: 100%;
+      position: relative;
+      img {
+        display: none;
+      }
+    }
+
+    img {
+      margin-top: 30px !important;
+      width: 200px;
+      height: 200px;
+    }
   }
 `;
