@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { useWeb3Context } from "../../Context/Web3Context";
 import { BtnLink, CenteredContent, Container, Button } from "../lib";
+import { NoEthereumProviderError, UserRejectedRequestError } from "@web3-react/injected-connector";
 
 const About = () => {
   const { library, chainId, account, activate, error } = useWeb3React();
@@ -15,10 +16,6 @@ const About = () => {
       activate(injected);
     }
   }, []);
-
-  React.useEffect(() => {
-    if (error) window.location.reload();
-  }, [error]);
 
   function handleLogin() {
     activate(injected);
@@ -66,6 +63,11 @@ const About = () => {
                 {" "}
                 <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b> Whoops, you're not in the BNB
                 network
+              </h1>
+            )}
+            {!!error && (
+              <h1 style={{ color: "tomato" }}>
+                {error instanceof UserRejectedRequestError ? "whoops you rejected" : ""}
               </h1>
             )}
             {!metamask && (
