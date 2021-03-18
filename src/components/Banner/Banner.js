@@ -11,9 +11,9 @@ const Banner = () => {
           <div className="left">
             <Heading>CryptoBears</Heading>
             <Heading>Welcome to the forest of these restless bears</Heading>
-            <img src="/ether2.png" />
+            <img src="/paw3.png" />
           </div>
-          <img src="/ether.svg" />
+          <img src="/paw1.png" />
         </MainContent>
       </Container>
     </Wrapper>
@@ -42,7 +42,7 @@ const MainContent = styled(CenteredContent)`
       width: 100px;
       height: auto;
       z-index: 11;
-      bottom: 0px;
+      bottom: -75px;
       right: 150px;
       display: block;
       position: absolute;
@@ -52,8 +52,9 @@ const MainContent = styled(CenteredContent)`
 
   img {
     transform: rotate(50deg);
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
+
     animation: ${floating} 6s ease-in-out infinite;
   }
 
