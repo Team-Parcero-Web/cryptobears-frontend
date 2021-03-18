@@ -9,8 +9,8 @@ const Banner = () => {
       <Container>
         <MainContent>
           <div className="left">
-            <Heading>CryptoBears</Heading>
-            <Heading>Welcome to the forest of these restless bears</Heading>
+            <Heading>CryptoBears.</Heading>
+            <Heading>Welcome to the forest of these restless bears.</Heading>
             <img src="/paw3.png" />
           </div>
           <img src="/paw1.png" />

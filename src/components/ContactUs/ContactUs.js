@@ -27,11 +27,17 @@ const ContactUs = () => {
             </FormControl>
             <FormControl>
               <Label htmlFor="email">Email</Label>
-              <Input type="text" placeholder="Full Name" name="email" id="email" />
+              <Input type="text" placeholder="name@email.com" name="email" id="email" />
             </FormControl>
             <FormControl>
               <Label htmlFor="message">Message</Label>
-              <TextArea type="text" placeholder="Full Name" name="message" id="message" rows="4" />
+              <TextArea
+                type="text"
+                placeholder="Your message"
+                name="message"
+                id="message"
+                rows="4"
+              />
             </FormControl>
             <Button type="submit" className="mt-3 w-3" onClick={handleSendMail}>
               Submit
@@ -62,6 +68,9 @@ const Inner = styled.div`
 
 const ContactCard = styled(Card)`
   width: 60%;
+  form {
+    margin-top: 3rem;
+  }
   @media (max-width: 976px) {
     width: 100%;
   }

@@ -57,7 +57,7 @@ export const Heading2 = styled(Heading)`
   letter-spacing: 1px;
 
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 `;
 export const Button = styled.button`
