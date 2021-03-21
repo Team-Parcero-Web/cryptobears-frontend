@@ -2,8 +2,13 @@ import React from "react";
 import { Container } from "../lib";
 import Link from "next/link";
 import styled from "styled-components";
+import { useWeb3React } from "@web3-react/core";
 
 const Header = () => {
+  const { account, deactivate } = useWeb3React();
+  React.useEffect(() => {
+    console.log(account);
+  }, [account]);
   return (
     <Wrapper>
       <Container>
@@ -15,9 +20,35 @@ const Header = () => {
           </Logo>
           <div>
             <nav>
-              <NavButton href="#about">About</NavButton>
-              <NavButton href="#about">Bears</NavButton>
-              <NavButton href="#contact">contact</NavButton>
+              <Link href="/#about">
+                <NavButton>About</NavButton>
+              </Link>
+              <Link href="/#about">
+                <NavButton>Bears</NavButton>
+              </Link>
+              <Link href="/#contact">
+                <NavButton>contact</NavButton>
+              </Link>
+              {!account && (
+                <Link href="/login">
+                  <NavButton>Sign in</NavButton>
+                </Link>
+              )}
+              {account && (
+                <NavButton
+                  onClick={() => {
+                    deactivate();
+                    window.sessionStorage.setItem("isLoggedIn", false);
+                  }}
+                >
+                  Sign out
+                </NavButton>
+              )}
+              {account && (
+                <Link href="/login">
+                  <NavButton>my profile</NavButton>
+                </Link>
+              )}
             </nav>
           </div>
         </InnerHeader>
@@ -74,6 +105,7 @@ const NavButton = styled.a`
   transition: all 0.2s ease;
   margin-bottom: 30px;
   top: 0;
+  cursor: pointer;
 
   @media (max-width: 976px) {
     font-size: 1.2rem;

@@ -12,7 +12,7 @@ const About = () => {
 
   React.useEffect(() => {
     setMetamask(window.web3 ? true : false);
-    if (window.sessionStorage.getItem("isLoggedIn")) {
+    if (window.sessionStorage.getItem("isLoggedIn") === "true") {
       activate(injected);
     }
   }, []);
@@ -101,7 +101,7 @@ const About = () => {
             )}
             {account && chainId === 56 && (
               <div>
-                <img src="/paw1.png" alt="" srcset="" />
+                <img src="/paw1.png" alt="" />
                 <Button className="mt-1" onClick={() => getBear()}>
                   Befriend a bear
                 </Button>

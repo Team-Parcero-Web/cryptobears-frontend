@@ -68,6 +68,12 @@ export const Heading3 = styled(Heading)`
     font-size: 2rem;
   }
 `;
+
+export const Info = styled.p`
+  font-size: 1.4rem;
+  text-align: center;
+`;
+
 export const Button = styled.button`
   padding: 14px 10px;
   background-color: #5166c2;

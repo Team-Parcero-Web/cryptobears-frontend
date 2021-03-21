@@ -25,7 +25,7 @@ export default Banner;
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  background-color: #f1c8db;
+  background-color: ${({ theme }) => theme.colors.pink};
   height: 700px;
 
   @media (max-width: 768px) {
