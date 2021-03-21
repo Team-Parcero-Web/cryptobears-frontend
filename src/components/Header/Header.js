@@ -10,16 +10,14 @@ const Header = () => {
         <InnerHeader>
           <Logo>
             <Link href="/">
-              <a>
-                <img src="/logo-shakti.png" alt="logo" /> <p>hakti</p>
-              </a>
+              <a>{/* <img src="/paw2.png" alt="logo" /> */}</a>
             </Link>
           </Logo>
           <div>
             <nav>
-              <NavButton href="/">About</NavButton>
-              <NavButton href="/">Bears</NavButton>
-              <NavButton href="/">contact</NavButton>
+              <NavButton href="#about">About</NavButton>
+              <NavButton href="#about">Bears</NavButton>
+              <NavButton href="#contact">contact</NavButton>
             </nav>
           </div>
         </InnerHeader>
@@ -40,7 +38,8 @@ const Wrapper = styled.header`
 
 const Logo = styled.div`
   img {
-    width: 40px;
+    width: 100px;
+    margin-top: 20px;
   }
   p {
     display: inline;

@@ -16,7 +16,7 @@ const ContactUs = () => {
     e.preventDefault();
   };
   return (
-    <Wrapper>
+    <Wrapper id="contact">
       <Inner>
         <ContactCard>
           <Heading2>Let's get in touch!</Heading2>

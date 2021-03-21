@@ -38,10 +38,9 @@ export const CenteredContent = styled.div`
   }
 `;
 export const Heading = styled.h1`
-  font-family: "Josefin Sans", sans-serif;
-  font-family: "Oswald", sans-serif;
-  font-size: 6rem;
-  letter-spacing: 5px;
+  font-family: "Oswald", sans-serif, "Oswald";
+  font-size: ${({ xlarge }) => (xlarge ? "7rem" : "5rem")};
+  letter-spacing: 2px;
   margin: 0;
   z-index: 2;
   font-weight: 500;
@@ -58,6 +57,15 @@ export const Heading2 = styled(Heading)`
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
+  }
+`;
+
+export const Heading3 = styled(Heading)`
+  font-size: 3rem;
+  letter-spacing: 1px;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
   }
 `;
 export const Button = styled.button`

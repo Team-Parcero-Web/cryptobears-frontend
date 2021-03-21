@@ -2,7 +2,7 @@ import { useWeb3React } from "@web3-react/core";
 import React from "react";
 import styled from "styled-components";
 import { useWeb3Context } from "../../Context/Web3Context";
-import { BtnLink, CenteredContent, Container, Button } from "../lib";
+import { BtnLink, CenteredContent, Container, Button, Heading3 } from "../lib";
 import { NoEthereumProviderError, UserRejectedRequestError } from "@web3-react/injected-connector";
 
 const About = () => {
@@ -47,7 +47,7 @@ const About = () => {
   }
 
   return (
-    <Container>
+    <Container id="about">
       <Wrapper>
         <Inner>
           <Images>
@@ -57,7 +57,7 @@ const About = () => {
             <Overlay />
           </Images>
           <Content>
-            <h3>Lorem ipsum dolor sit amet.</h3>
+            <Heading3>About our bears:</Heading3>
             {chainId && chainId !== 56 && (
               <h1 style={{ color: "tomato" }}>
                 {" "}
@@ -101,8 +101,9 @@ const About = () => {
             )}
             {account && chainId === 56 && (
               <div>
+                <img src="/paw1.png" alt="" srcset="" />
                 <Button className="mt-1" onClick={() => getBear()}>
-                  Get bear
+                  Befriend a bear
                 </Button>
               </div>
             )}
@@ -139,7 +140,13 @@ const Inner = styled.div`
 
 const Content = styled.div`
   width: 33%;
+  img {
+    width: 100px;
+  }
 
+  img:hover {
+    transform: translateY(-2px);
+  }
   h3 {
     font-weight: 700;
     text-transform: uppercase;
