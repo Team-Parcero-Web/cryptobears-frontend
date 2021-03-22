@@ -13,7 +13,7 @@ const login = () => {
 
   function handleLogin() {
     activate(injected).then(() => {
-      router.push("/");
+      router.push("/my-profile");
     });
     window.sessionStorage.setItem("isLoggedIn", true);
   }

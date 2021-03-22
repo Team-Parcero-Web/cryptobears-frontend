@@ -76,7 +76,7 @@ export const Info = styled.p`
 
 export const Button = styled.button`
   padding: 14px 10px;
-  background-color: #5166c2;
+  background-color: ${({ theme }) => theme.colors.purple};
   color: white;
   border: none;
   font-weight: bold;
@@ -132,7 +132,9 @@ export const FormControl = styled.div`
 
 export const Label = styled.label`
   font-size: 1.6rem;
+  font-size: ${({ size }) => (size ? `${size}rem` : "1.6rem")};
   font-weight: 500;
+  display: block;
 `;
 
 const baseInputStyles = css`

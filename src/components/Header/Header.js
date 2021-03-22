@@ -45,7 +45,7 @@ const Header = () => {
                 </NavButton>
               )}
               {account && (
-                <Link href="/login">
+                <Link href="/my-profile">
                   <NavButton>my profile</NavButton>
                 </Link>
               )}
