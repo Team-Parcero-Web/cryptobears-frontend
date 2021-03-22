@@ -8,11 +8,11 @@ import { useRouter } from "next/router";
 
 const login = () => {
   const { account, activate, error } = useWeb3React();
-  const { injected } = useWeb3Context();
+  const { injected, isMetamask } = useWeb3Context();
   const router = useRouter();
 
   function handleLogin() {
-    activate(injected).then(() => {
+    activate(injected).then((data) => {
       router.push("/my-profile");
     });
     window.sessionStorage.setItem("isLoggedIn", true);
@@ -35,11 +35,17 @@ const login = () => {
       <Header />
       <Content>
         <Heading2>Sign in with Metamask</Heading2>
-        <Button className="mt-4 w-3" onClick={handleLogin}>
+        <Button className="mt-4 w-3" onClick={handleLogin} disabled={!isMetamask}>
           Sign in
         </Button>
         {error && (
           <Info>Didn't work? Maybe you have a pending request on your metamask extension!</Info>
+        )}
+        {!isMetamask && (
+          <Info>
+            We couldn't find the metamask extension in your browser, please install it and try
+            again!
+          </Info>
         )}
       </Content>
     </Login>

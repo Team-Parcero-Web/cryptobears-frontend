@@ -9,11 +9,23 @@ import {
   TextArea,
   Button,
   Heading2,
+  Info,
+  Spinner,
 } from "../lib";
+import { isEmail } from "../../utils/validations";
 
 const ContactUs = () => {
+  const [formData, setFormData] = React.useState({ fullName: "", email: "", message: "" });
+  const [error, setError] = React.useState("");
   const handleSendMail = (e) => {
+    const { fullName, email, message } = formData;
     e.preventDefault();
+    if (!fullName || !email || !message) {
+      setError("All fields are required");
+    } else if (!isEmail(email)) {
+      setError("You should use a valid email");
+    }
+    setError("");
   };
   return (
     <Wrapper id="contact">
@@ -23,15 +35,31 @@ const ContactUs = () => {
           <form>
             <FormControl>
               <Label htmlFor="fullname">Full Name</Label>
-              <Input type="text" placeholder="Full Name" name="fullname" id="fullname" />
+              <Input
+                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                value={formData.fullName}
+                type="text"
+                placeholder="Full Name"
+                name="fullname"
+                id="fullname"
+              />
             </FormControl>
             <FormControl>
               <Label htmlFor="email">Email</Label>
-              <Input type="text" placeholder="name@email.com" name="email" id="email" />
+              <Input
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                value={formData.email}
+                type="text"
+                placeholder="name@email.com"
+                name="email"
+                id="email"
+              />
             </FormControl>
             <FormControl>
               <Label htmlFor="message">Message</Label>
               <TextArea
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                value={formData.message}
                 type="text"
                 placeholder="Your message"
                 name="message"
@@ -39,9 +67,20 @@ const ContactUs = () => {
                 rows="4"
               />
             </FormControl>
-            <Button type="submit" className="mt-3 w-3" onClick={handleSendMail}>
+            <Button
+              type="submit"
+              className="mt-3 w-3"
+              onClick={handleSendMail}
+              loading={true}
+              disabled={true}
+            >
               Submit
             </Button>
+            {error && (
+              <Info className="error" size="2">
+                {error}
+              </Info>
+            )}
           </form>
         </ContactCard>
       </Inner>

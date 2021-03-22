@@ -23,9 +23,6 @@ const Header = () => {
               <Link href="/#about">
                 <NavButton>About</NavButton>
               </Link>
-              <Link href="/#about">
-                <NavButton>Bears</NavButton>
-              </Link>
               <Link href="/#contact">
                 <NavButton>contact</NavButton>
               </Link>

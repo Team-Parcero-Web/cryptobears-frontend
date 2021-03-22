@@ -58,7 +58,7 @@ a {
   margin-top: 2rem;
 }
 .mt-4 {
-  margin-top: 3rem;
+  margin-top: 3rem !important;
 }
 
 .mb-1 {
@@ -70,4 +70,8 @@ a {
 
 .w-3 {
   width: 150px;
+}
+
+.error {
+  color: tomato;
 }

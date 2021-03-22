@@ -24,7 +24,7 @@ const MyProfile = () => {
   React.useEffect(() => {
     client("bears").then((data) => {
       setBears(data);
-      setMyBears(data.slice(0, 40));
+      setMyBears(data.slice(0, 14));
     });
   }, []);
 
@@ -51,6 +51,7 @@ const MyProfile = () => {
               <Label size="2.5">{bears.length}</Label>
             </div>
           </ProfileGrid>
+          <Heading3 className="mt-4">Your Bears:</Heading3>
           <BearsGrid>
             {myBears.map((bear) => (
               <BearCard bear={bear} />
@@ -76,10 +77,14 @@ const ProfileGrid = styled.div`
 `;
 
 const BearsGrid = styled.div`
-  margin-top: 7rem;
+  margin-top: 2rem;
   display: grid;
   justify-items: center;
+  grid-row-gap: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
 `;
 export default MyProfile;

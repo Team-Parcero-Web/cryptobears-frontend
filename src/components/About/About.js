@@ -7,11 +7,9 @@ import { NoEthereumProviderError, UserRejectedRequestError } from "@web3-react/i
 
 const About = () => {
   const { library, chainId, account, activate, error } = useWeb3React();
-  const { injected, contract } = useWeb3Context();
-  const [metamask, setMetamask] = React.useState(true);
+  const { injected, contract, isMetamask } = useWeb3Context();
 
   React.useEffect(() => {
-    setMetamask(window.web3 ? true : false);
     if (window.sessionStorage.getItem("isLoggedIn") === "true") {
       activate(injected);
     }
@@ -70,7 +68,7 @@ const About = () => {
                 {error instanceof UserRejectedRequestError ? "whoops you rejected" : ""}
               </h1>
             )}
-            {!metamask && (
+            {!isMetamask && (
               <h1 style={{ color: "tomato" }}>
                 {" "}
                 <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b> Whoops, we couldn't find

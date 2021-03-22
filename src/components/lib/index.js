@@ -45,6 +45,7 @@ export const Heading = styled.h1`
   z-index: 2;
   font-weight: 500;
   line-height: 1.2;
+  word-wrap: break-word;
   @media (max-width: 768px) {
     font-size: 4rem;
     line-height: 1.2;
@@ -70,12 +71,14 @@ export const Heading3 = styled(Heading)`
 `;
 
 export const Info = styled.p`
-  font-size: 1.4rem;
+  font-size: ${({ size }) => (size ? `${size}rem` : "1.6rem")};
   text-align: center;
 `;
 
-export const Button = styled.button`
+export const BaseButton = styled.button`
   padding: 14px 10px;
+  padding: ${({ loading }) => (loading ? "10px" : "14px 10px")};
+
   background-color: ${({ theme }) => theme.colors.purple};
   color: white;
   border: none;
@@ -83,6 +86,8 @@ export const Button = styled.button`
   font-size: 18px;
   transition: all 0.2s ease-out;
   border-radius: 3px;
+  min-height:50px;
+  cursor: pointer;
 
   &:hover {
     background-color: #051a76;
@@ -99,10 +104,28 @@ export const Button = styled.button`
     transform: translateY(0px);
   }
 
+  ${(props) =>
+    props.disabled &&
+    css`
+      background: #c1c1c1;
+      &:hover {
+        background: #c1c1c1;
+      }
+    `}
+  };
+
   @media (max-width: 800px) {
     max-width: 100%;
   }
 `;
+
+export const Button = ({ children, loading, ...rest }) => {
+  return (
+    <BaseButton {...rest} loading={loading}>
+      {loading ? <Spinner /> : children}
+    </BaseButton>
+  );
+};
 
 export const BtnLink = styled.div`
   a {
@@ -162,6 +185,50 @@ export const Input = styled.input`
 
 export const TextArea = styled.textarea`
   ${baseInputStyles}
+`;
+
+export const Spinner = styled.div`
+  border-radius: 50%;
+  width: 3em;
+  height: 3em;
+  margin: 0px auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 0.5em solid rgba(255, 255, 255, 0.2);
+  border-right: 0.5em solid rgba(255, 255, 255, 0.2);
+  border-bottom: 0.5em solid rgba(255, 255, 255, 0.2);
+  border-left: 0.5em solid #ffffff;
+
+  transform: translateZ(0);
+  animation: load8 1.1s infinite linear;
+
+  &:after {
+    border-radius: 50%;
+    width: 3em;
+    height: 3em;
+  }
+
+  @-webkit-keyframes load8 {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes load8 {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 //Keyframes
