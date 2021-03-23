@@ -8,19 +8,11 @@ import { debounce } from "../../utils/debounce";
 
 const Header = () => {
   const { account, deactivate } = useWeb3React();
-  React.useEffect(() => {
-    console.log(account);
-  }, [account]);
-
-  //
-
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
 
   const handleScroll = debounce(() => {
     const currentScrollPos = window.pageYOffset;
-    console.log(currentScrollPos);
-    console.log(prevScrollPos);
 
     setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
 
