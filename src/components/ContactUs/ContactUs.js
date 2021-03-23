@@ -10,22 +10,40 @@ import {
   Button,
   Heading2,
   Info,
-  Spinner,
 } from "../lib";
 import { isEmail } from "../../utils/validations";
+import { client } from "../../api/client";
 
 const ContactUs = () => {
   const [formData, setFormData] = React.useState({ fullName: "", email: "", message: "" });
   const [error, setError] = React.useState("");
+  const [success, setSuccess] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+
   const handleSendMail = (e) => {
     const { fullName, email, message } = formData;
+    setSuccess("");
+    setError("");
+
     e.preventDefault();
     if (!fullName || !email || !message) {
       setError("All fields are required");
+      return;
     } else if (!isEmail(email)) {
       setError("You should use a valid email");
+      return;
     }
-    setError("");
+    setLoading(true);
+    client("contact/", { data: { fullName, email, message } })
+      .then((_data) => {
+        setLoading(false);
+        setSuccess("Message succesfully sent!");
+        setFormData({ fullName: "", email: "", message: "" });
+      })
+      .catch((_error) => {
+        setLoading(false);
+        setError("Unexpected error, please try again");
+      });
   };
   return (
     <Wrapper id="contact">
@@ -71,14 +89,19 @@ const ContactUs = () => {
               type="submit"
               className="mt-3 w-3"
               onClick={handleSendMail}
-              loading={true}
-              disabled={true}
+              isLoading={loading}
+              isDisabled={loading}
             >
               Submit
             </Button>
             {error && (
               <Info className="error" size="2">
                 {error}
+              </Info>
+            )}
+            {success && (
+              <Info className="success" size="2">
+                {success}
               </Info>
             )}
           </form>

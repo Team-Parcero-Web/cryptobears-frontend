@@ -75,3 +75,7 @@ a {
 .error {
   color: tomato;
 }
+
+.success {
+  color: #4bb543;
+}

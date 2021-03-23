@@ -73,11 +73,12 @@ export const Heading3 = styled(Heading)`
 export const Info = styled.p`
   font-size: ${({ size }) => (size ? `${size}rem` : "1.6rem")};
   text-align: center;
+  margin: 0;
 `;
 
 export const BaseButton = styled.button`
   padding: 14px 10px;
-  padding: ${({ loading }) => (loading ? "10px" : "14px 10px")};
+  padding: ${({ isLoading }) => (isLoading ? "10px" : "14px 10px")};
 
   background-color: ${({ theme }) => theme.colors.purple};
   color: white;
@@ -86,7 +87,7 @@ export const BaseButton = styled.button`
   font-size: 18px;
   transition: all 0.2s ease-out;
   border-radius: 3px;
-  min-height:50px;
+  min-height: 50px;
   cursor: pointer;
 
   &:hover {
@@ -105,24 +106,23 @@ export const BaseButton = styled.button`
   }
 
   ${(props) =>
-    props.disabled &&
+    props.isDisabled &&
     css`
       background: #c1c1c1;
       &:hover {
         background: #c1c1c1;
       }
     `}
-  };
 
   @media (max-width: 800px) {
     max-width: 100%;
   }
 `;
 
-export const Button = ({ children, loading, ...rest }) => {
+export const Button = ({ children, isLoading, ...rest }) => {
   return (
-    <BaseButton {...rest} loading={loading}>
-      {loading ? <Spinner /> : children}
+    <BaseButton {...rest} isLoading={isLoading}>
+      {isLoading ? <Spinner /> : children}
     </BaseButton>
   );
 };
