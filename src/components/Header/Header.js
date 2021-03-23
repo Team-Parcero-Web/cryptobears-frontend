@@ -1,17 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "../lib";
 import Link from "next/link";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
+
+import { debounce } from "../../utils/debounce";
 
 const Header = () => {
   const { account, deactivate } = useWeb3React();
   React.useEffect(() => {
     console.log(account);
   }, [account]);
+
+  //
+
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  const handleScroll = debounce(() => {
+    const currentScrollPos = window.pageYOffset;
+    console.log(currentScrollPos);
+    console.log(prevScrollPos);
+
+    setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+
+    setPrevScrollPos(currentScrollPos);
+  }, 10);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollPos, visible, handleScroll]);
+
   return (
-    <Wrapper>
-      <Container>
+    <Wrapper
+      style={{
+        top: visible ? "0" : "-80px",
+        backgroundColor: prevScrollPos > 80 ? "white" : "transparent",
+      }}
+    >
+      <Container className="container">
         <InnerHeader>
           <Logo>
             <Link href="/">
@@ -59,9 +88,14 @@ export default Header;
 const Wrapper = styled.header`
   height: 80px;
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0px;
   z-index: 10;
+  transition: top 0.3s, background-color 0.5s 0.1s;
+  .container {
+    height: 80px;
+    padding: 0px 2rem;
+  }
 `;
 
 const Logo = styled.div`
