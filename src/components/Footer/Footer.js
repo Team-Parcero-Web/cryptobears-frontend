@@ -40,6 +40,7 @@ const Wrapper = styled.footer`
   align-items: center;
   padding: 0 10rem;
   width: 100%;
+
   ul {
     display: flex;
     li:not(:last-child) {
@@ -55,6 +56,24 @@ const Wrapper = styled.footer`
       }
     }
   }
+
+  @media (max-width: 976px) {
+    padding: 0 2rem;
+    justify-content: center;
+    ul {
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      li:not(:last-child) {
+        margin-left: 0rem;
+      }
+
+      li:last-child {
+        display: none;
+      }
+    }
+  }
 `;
 
 const FooterButton = styled.a`
@@ -62,5 +81,9 @@ const FooterButton = styled.a`
   font-weight: 600;
   text-transform: uppercase;
   cursor: pointer;
+
+  @media (max-width: 976px) {
+    font-size: 1.4rem;
+  }
 `;
 export default Footer;

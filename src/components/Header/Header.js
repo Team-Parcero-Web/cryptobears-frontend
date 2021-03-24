@@ -26,12 +26,7 @@ const Header = () => {
   }, [prevScrollPos, visible, handleScroll]);
 
   return (
-    <Wrapper
-      style={{
-        top: visible ? "0" : "-80px",
-        backgroundColor: prevScrollPos > 80 ? "white" : "transparent",
-      }}
-    >
+    <Wrapper visible={visible}>
       <Container className="container">
         <InnerHeader>
           <Logo>
@@ -81,9 +76,10 @@ const Wrapper = styled.header`
   height: 80px;
   width: 100%;
   position: fixed;
-  top: 0px;
+  top: ${({ visible }) => (visible ? "0" : "-80px")};
   z-index: 10;
   transition: top 0.3s, background-color 0.5s 0.1s;
+  background-color: ${({ theme }) => theme.colors.pink};
   .container {
     height: 80px;
     padding: 0px 2rem;
