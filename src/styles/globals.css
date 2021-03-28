@@ -24,6 +24,21 @@ html {
   font-weight: normal;
 } */
 
+#nprogress .bar {
+  background: #5166c2 !important;
+  height: 3px;
+  z-index: 1;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #5166c2, 0 0 5px #5166c2;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #5166c2;
+  border-left-color: #5166c2;
+}
+
 ol,
 ul {
   list-style: none;

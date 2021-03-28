@@ -11,9 +11,9 @@ const Banner = () => {
           <div className="left">
             <Heading xlarge={true}>CryptoBears.</Heading>
             <Heading>Welcome to the forest of these restless bears.</Heading>
-            <img src="/paw3.png" />
+            <img src="/images/paw3.png" />
           </div>
-          <img src="/paw1.png" />
+          <img src="/images/paw1.png" />
         </MainContent>
       </Container>
     </Wrapper>

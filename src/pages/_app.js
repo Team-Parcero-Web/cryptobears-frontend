@@ -5,6 +5,7 @@ import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import { GlobalProvider } from "../Context/Web3Context";
 import Head from "next/head";
+import "nprogress/nprogress.css";
 
 const GlobalStyle = createGlobalStyle`
   body {

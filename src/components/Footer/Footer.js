@@ -25,7 +25,7 @@ const Footer = () => {
         </li>
 
         <li>
-          <img src="/paw1.png" />
+          <img src="/images/paw1.png" />
         </li>
       </ul>
     </Wrapper>

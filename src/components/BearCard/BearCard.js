@@ -4,9 +4,10 @@ import styled from "styled-components";
 
 const BearCard = ({ bear }) => {
   const { image, id } = bear;
+  const imgSrc = image.split("?")[0];
   return (
     <Wrapper>
-      <img src={image} alt="bear" />
+      <img src={imgSrc} alt="bear" />
       <Label>Bear number {id}</Label>
     </Wrapper>
   );

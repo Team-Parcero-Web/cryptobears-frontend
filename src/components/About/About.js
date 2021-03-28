@@ -49,8 +49,8 @@ const About = () => {
       <Wrapper>
         <Inner>
           <Images>
-            <img src="/bear.png" alt="Picture of the author" />
-            <img src="/bears.png" alt="Picture of the author" />
+            <img src="/images/bear.png" alt="Picture of the author" />
+            <img src="/images/bears.png" alt="Picture of the author" />
             <BlackBox />
             <Overlay />
           </Images>
@@ -99,7 +99,7 @@ const About = () => {
             )}
             {account && chainId === 56 && (
               <div>
-                <img src="/paw1.png" alt="" />
+                <img src="/images/paw1.png" alt="" />
                 <Button className="mt-1" onClick={() => getBear()}>
                   Befriend a bear
                 </Button>

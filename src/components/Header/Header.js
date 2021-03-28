@@ -5,6 +5,16 @@ import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 
 import { debounce } from "../../utils/debounce";
+import Router from "next/router";
+import NProgress from "nprogress";
+
+Router.onRouteChangeStart = (url) => {
+  NProgress.start();
+  NProgress.configure({ showSpinner: false });
+};
+
+Router.onRouteChangeComplete = () => NProgress.done();
+Router.onRouterChangeError = () => NProgress.done();
 
 const Header = () => {
   const { account, deactivate } = useWeb3React();
@@ -31,12 +41,12 @@ const Header = () => {
         <InnerHeader>
           <Logo>
             <Link href="/">
-              <a>{/* <img src="/paw2.png" alt="logo" /> */}</a>
+              <a>{/* <img src="/images/paw2.png" alt="logo" /> */}</a>
             </Link>
           </Logo>
           <div>
             <nav>
-              <Link href="/#about">
+              <Link href="/">
                 <NavButton>About</NavButton>
               </Link>
               <Link href="/#contact">
