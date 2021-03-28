@@ -40,7 +40,7 @@ const About = () => {
     try {
       await contract.methods.getBear().send({ from: account, value: 37500000000000000 });
     } catch (error) {
-      console.log("there was an error: " + error.message);
+      throw new Error(error.message);
     }
   }
 
@@ -154,7 +154,7 @@ const Content = styled.div`
   }
 
   p {
-    font-size: 1.6rem;
+    font-size: 2rem;
     line-height: 3rem;
     font-weight: 400;
     margin: 4rem 0 2rem;

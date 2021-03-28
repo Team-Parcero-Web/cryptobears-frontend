@@ -9,12 +9,9 @@ const Steps = () => {
     <CenteredContent>
       <StepsGrid>
         <Heading>How to get a bear?</Heading>
-        {steps.map(
-          (step) =>
-            console.log(step.id % 2 == 0) || (
-              <StepRow step={step} textPosition={step.id % 2 == 0 ? "right" : "left"} />
-            )
-        )}
+        {steps.map((step) => (
+          <StepRow step={step} textPosition={step.id % 2 == 0 ? "right" : "left"} />
+        ))}
       </StepsGrid>
     </CenteredContent>
   );
