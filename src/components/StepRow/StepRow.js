@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Heading3, Heading2 } from "../lib";
+import { Heading2 } from "../lib";
 
 const StepRow = ({ step, textPosition }) => {
   const { stepText, image, id } = step;
@@ -58,6 +58,9 @@ const Small = styled.div`
     position: relative;
     transition: 0.3s transform;
     width: 300px;
+    @media (max-width: 768px) {
+      width: 280px;
+    }
   }
 
   .smallimg::after {
@@ -80,6 +83,10 @@ const Small = styled.div`
   .smallimg:hover::after {
     top: 10px;
     left: ${({ textPosition }) => (textPosition === "left" ? "-10px" : " 10px")};
+
+    @media (max-width: 768px) {
+      left: 10px;
+    }
   }
 `;
 
@@ -93,6 +100,9 @@ const Large = styled.div`
   p {
     font-size: 2.5rem;
     margin: 1rem 0;
+    @media (max-width: 768px) {
+      font-size: 1.8rem;
+    }
   }
 `;
 

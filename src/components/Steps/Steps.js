@@ -19,9 +19,8 @@ const Steps = () => {
 
 const StepsGrid = styled.div`
   text-align: center;
-  padding: 0 2rem;
+  padding: 10rem 2rem;
   display: grid;
   width: 100%;
-  padding-top: 10rem;
 `;
 export default Steps;
