@@ -1,7 +1,7 @@
 import React from "react";
-import Image from "next/image";
-import { Container, Heading, CenteredContent, floating, floating2 } from "../lib";
-import styled, { keyframes } from "styled-components";
+import { Container, Heading, CenteredContent, floating, floating2, Button } from "../lib";
+import styled from "styled-components";
+import Link from "next/link";
 
 const Banner = () => {
   return (
@@ -11,6 +11,11 @@ const Banner = () => {
           <div className="left">
             <Heading xlarge={true}>CryptoBears.</Heading>
             <Heading>Welcome to the forest of these restless bears.</Heading>
+            <Link href="/get-bear">
+              <a href="">
+                <Button className="mt-4">Befriend a bear</Button>
+              </a>
+            </Link>
             <img src="/images/paw3.png" />
           </div>
           <img src="/images/paw1.png" />
