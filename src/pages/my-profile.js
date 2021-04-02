@@ -22,9 +22,9 @@ const MyProfile = () => {
   }, [account]);
 
   React.useEffect(() => {
-    client("bears").then((data) => {
+    client(`bears/?owner=${account}`).then((data) => {
       setBears(data);
-      setMyBears(data.slice(0, 14));
+      setMyBears(data);
     });
   }, []);
 

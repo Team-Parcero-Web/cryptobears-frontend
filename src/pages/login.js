@@ -8,7 +8,10 @@ import { useRouter } from "next/router";
 
 const login = () => {
   const { account, activate, error } = useWeb3React();
-  const { injected, isMetamask } = useWeb3Context();
+  const {
+    injected,
+    state: { isMetamask },
+  } = useWeb3Context();
   const router = useRouter();
 
   function handleLogin() {

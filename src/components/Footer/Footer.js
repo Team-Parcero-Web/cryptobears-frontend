@@ -33,7 +33,7 @@ const Footer = () => {
 };
 
 const Wrapper = styled.footer`
-  background-color: ${({ theme }) => theme.colors.gray};
+  background-color: ${({ theme }) => theme.colors.lightGrey};
   height: 10rem;
   display: flex;
   justify-content: flex-end;

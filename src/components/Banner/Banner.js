@@ -13,7 +13,7 @@ const Banner = () => {
             <Heading>Welcome to the forest of these restless bears.</Heading>
             <Link href="/get-bear">
               <a href="">
-                <Button className="mt-4">Befriend a bear</Button>
+                <GetButton className="mt-4">Befriend a bear</GetButton>
               </a>
             </Link>
             <img src="/images/paw3.png" />
@@ -37,6 +37,11 @@ const Wrapper = styled.div`
     height: 600px;
     align-items: start;
   }
+`;
+
+const GetButton = styled(Button)`
+  font-size: 2.4rem;
+  width: 240px;
 `;
 
 const MainContent = styled(CenteredContent)`

@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { useWeb3Context } from "../../Context/Web3Context";
 import { BtnLink, CenteredContent, Container, Button, Heading3 } from "../lib";
 import { NoEthereumProviderError, UserRejectedRequestError } from "@web3-react/injected-connector";
+import Link from "next/link";
 
 const About = () => {
   const { library, chainId, account, activate, error } = useWeb3React();
-  const { injected, contract, isMetamask } = useWeb3Context();
+  const { injected } = useWeb3Context();
 
   React.useEffect(() => {
     if (window.sessionStorage.getItem("isLoggedIn") === "true") {
@@ -36,27 +37,20 @@ const About = () => {
     ]);
   }
 
-  async function getBear() {
-    try {
-      await contract.methods.getBear().send({ from: account, value: 37500000000000000 });
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
   return (
     <Container id="about">
       <Wrapper>
         <Inner>
           <Images>
-            <img src="/images/bear.png" alt="Picture of the author" />
-            <img src="/images/bears.png" alt="Picture of the author" />
+            <img src="/images/bear.png" alt="Bear example" />
+            <img src="/images/bears.png" alt="Bear example" />
             <BlackBox />
             <Overlay />
           </Images>
           <Content>
             <Heading3>About our bears:</Heading3>
-            {chainId && chainId !== 56 && (
+
+            {chainId && chainId !== 97 && (
               <h1 style={{ color: "tomato" }}>
                 {" "}
                 <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b> Whoops, you're not in the BNB
@@ -68,13 +62,7 @@ const About = () => {
                 {error instanceof UserRejectedRequestError ? "whoops you rejected" : ""}
               </h1>
             )}
-            {!isMetamask && (
-              <h1 style={{ color: "tomato" }}>
-                {" "}
-                <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b> Whoops, we couldn't find
-                ethereum in youre browser, please install MetaMask
-              </h1>
-            )}
+
             {!account && (
               <h1 style={{ color: "tomato" }}>
                 {" "}
@@ -97,15 +85,7 @@ const About = () => {
                 login
               </Button>
             )}
-            {account && chainId === 56 && (
-              <div>
-                <img src="/images/paw1.png" alt="" />
-                <Button className="mt-1" onClick={() => getBear()}>
-                  Befriend a bear
-                </Button>
-              </div>
-            )}
-            {account && chainId !== 56 && (
+            {account && chainId !== 97 && (
               <div>
                 <Button className="mt-1" onClick={() => addBNB()}>
                   Add or switch to BNB

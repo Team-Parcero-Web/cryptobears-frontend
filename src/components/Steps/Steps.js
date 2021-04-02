@@ -10,7 +10,7 @@ const Steps = () => {
       <StepsGrid>
         <Heading>How to get a bear?</Heading>
         {steps.map((step) => (
-          <StepRow step={step} textPosition={step.id % 2 == 0 ? "right" : "left"} />
+          <StepRow step={step} textPosition={step.id % 2 == 0 ? "right" : "left"} key={step.id} />
         ))}
       </StepsGrid>
     </CenteredContent>

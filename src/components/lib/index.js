@@ -108,9 +108,9 @@ export const BaseButton = styled.button`
   ${(props) =>
     props.isDisabled &&
     css`
-      background: #c1c1c1;
+      background: #c1c1c1 !important;
       &:hover {
-        background: #c1c1c1;
+        background: #c1c1c1 !important;
       }
     `}
 
@@ -185,6 +185,15 @@ export const Input = styled.input`
 
 export const TextArea = styled.textarea`
   ${baseInputStyles}
+`;
+
+// Decoration
+
+export const PurpleLine = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  background-color: ${({ theme }) => theme.colors.purple};
 `;
 
 export const Spinner = styled.div`

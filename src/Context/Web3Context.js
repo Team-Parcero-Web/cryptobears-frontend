@@ -6,17 +6,31 @@ import { bearsABI } from "../contracts/bears";
 const Web3Context = createContext();
 
 export const GlobalProvider = ({ children }) => {
-  const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42, 56] });
-  const [contract, setContract] = React.useState({});
-  const [isMetamask, setIsMetamask] = React.useState(true);
+  const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42, 56, 97] });
+  const [state, setState] = React.useState({ contract: null, isMetamask: true, value: 0 });
 
   React.useEffect(() => {
     Contract.setProvider(window.web3?.currentProvider);
-    setIsMetamask(window.web3 ? true : false);
-    setContract(new Contract(bearsABI, "0x7A2CB10a677bd1185E7EC03060758c7AD35a463c"));
+    setState({
+      isMetamask: window.web3 ? true : false,
+      contract: new Contract(bearsABI, "0xf5791A3963E5E5853c7a190066cBE9d46Ea5daEf"),
+    });
   }, []);
 
-  const customInitState = { injected, contract, isMetamask };
+  React.useEffect(() => {
+    if (state.contract?.methods) {
+      state.contract.methods
+        .claimPrice()
+        .call()
+        .then((data) =>
+          setState({
+            ...state,
+            value: data,
+          })
+        );
+    }
+  }, [state.contract]);
+  const customInitState = { injected, state };
 
   return <Web3Context.Provider value={customInitState}>{children}</Web3Context.Provider>;
 };
