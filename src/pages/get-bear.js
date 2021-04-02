@@ -13,7 +13,7 @@ const MyProfile = () => {
   const { account, activate } = useWeb3React();
   const {
     injected,
-    state: { contract, value },
+    state: { contract, value, isMetamask },
   } = useWeb3Context();
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
@@ -23,13 +23,19 @@ const MyProfile = () => {
   const { width, height } = useWindowSize();
 
   React.useEffect(() => {
-    if (!account && window.sessionStorage.getItem("isLoggedIn") === "false") {
+    if (
+      (!account && window.sessionStorage.getItem("isLoggedIn") === "false") ||
+      !window.sessionStorage.getItem("isLoggedIn")
+    ) {
       router.push("/login");
     }
   }, [account]);
 
   React.useEffect(() => {
-    if (window.sessionStorage.getItem("isLoggedIn") === "true") {
+    if (
+      window.sessionStorage.getItem("isLoggedIn") &&
+      window.sessionStorage.getItem("isLoggedIn") === "true"
+    ) {
       activate(injected);
     }
   }, []);
@@ -89,11 +95,16 @@ const MyProfile = () => {
                   <p className="bnb-price"> BNB 0.0375 </p>
                   <p className="usd-price">($10)</p>
                 </div>
-                <BuyButton isLoading={loading} isDisabled={loading} onClick={getBear}>
+                <BuyButton isLoading={loading} disabled={loading || !isMetamask} onClick={getBear}>
                   BUY NOW
                 </BuyButton>
                 {loading && (
                   <p className="price-title mt-2">Hold on! your transaction is being processed</p>
+                )}
+                {(!isMetamask || !account) && (
+                  <p className="price-title mt-2 error">
+                    You need metamask extension and being logged in to get a bear
+                  </p>
                 )}
               </BuyDetails>
             </BuyRight>

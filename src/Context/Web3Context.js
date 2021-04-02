@@ -18,7 +18,7 @@ export const GlobalProvider = ({ children }) => {
   }, []);
 
   React.useEffect(() => {
-    if (state.contract?.methods) {
+    if (state.contract?.methods && window.web3) {
       state.contract.methods
         .claimPrice()
         .call()

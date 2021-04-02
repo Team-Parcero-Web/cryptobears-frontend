@@ -106,7 +106,7 @@ export const BaseButton = styled.button`
   }
 
   ${(props) =>
-    props.isDisabled &&
+    props.disabled &&
     css`
       background: #c1c1c1 !important;
       &:hover {
@@ -119,9 +119,9 @@ export const BaseButton = styled.button`
   }
 `;
 
-export const Button = ({ children, isLoading, ...rest }) => {
+export const Button = ({ children, isLoading, disabled, ...rest }) => {
   return (
-    <BaseButton {...rest} isLoading={isLoading}>
+    <BaseButton {...rest} isLoading={isLoading} disabled={disabled}>
       {isLoading ? <Spinner /> : children}
     </BaseButton>
   );

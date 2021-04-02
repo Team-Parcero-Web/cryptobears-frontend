@@ -31,7 +31,7 @@ button {
 
 #nprogress .bar {
   background: #5166c2 !important;
-  height: 3px;
+  height: 5px !important;
   z-index: 1;
 }
 
@@ -93,7 +93,7 @@ a {
 }
 
 .error {
-  color: tomato;
+  color: tomato !important;
 }
 
 .success {
