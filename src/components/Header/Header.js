@@ -3,7 +3,6 @@ import { Container } from "../lib";
 import Link from "next/link";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
-
 import { debounce } from "../../utils/debounce";
 import Router from "next/router";
 import NProgress from "nprogress";
@@ -40,20 +39,20 @@ const Header = () => {
       <Container className="container">
         <InnerHeader>
           <Logo>
-            <Link href="/">
+            <Link href="/" passHref>
               <a>{/* <img src="/images/paw2.png" alt="logo" /> */}</a>
             </Link>
           </Logo>
           <div>
             <nav>
-              <Link href="/">
+              <Link href="/" passHref>
                 <NavButton>About</NavButton>
               </Link>
-              <Link href="/#contact">
+              <Link href="/#contact" passHref>
                 <NavButton>contact</NavButton>
               </Link>
               {!account && (
-                <Link href="/login">
+                <Link href="/login" passHref>
                   <NavButton>Sign in</NavButton>
                 </Link>
               )}
@@ -68,7 +67,7 @@ const Header = () => {
                 </NavButton>
               )}
               {account && (
-                <Link href="/my-profile">
+                <Link href="/my-profile" passHref>
                   <NavButton>my profile</NavButton>
                 </Link>
               )}
@@ -140,9 +139,7 @@ const NavButton = styled.a`
     font-size: 1.2rem;
     margin: 0 7px;
   }
-  &:hover {
-    top: -3px;
-  }
+
   &:last-child {
     margin-right: 0;
   }

@@ -16,7 +16,7 @@ const steps = [
     id: 5,
     stepText:
       "Once you have completed these steps, you'll be able to login on our site and befriend a random bear!",
-    image: "/images/step1.jpeg",
+    image: "/images/step5.jpeg",
   },
 ];
 

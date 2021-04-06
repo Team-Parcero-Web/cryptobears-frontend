@@ -10,7 +10,7 @@ import Confetti from "react-confetti";
 import useWindowSize from "../hooks/useWindowSize";
 
 const MyProfile = () => {
-  const { account, activate } = useWeb3React();
+  const { account, activate, chainId } = useWeb3React();
   const {
     injected,
     state: { contract, value, isMetamask },
@@ -70,7 +70,7 @@ const MyProfile = () => {
       {showConfetti && <Confetti width={width} height={height} numberOfPieces={120} />}
       <Container>
         <Inner>
-          <Heading2>Buy a bear</Heading2>
+          <Heading2>Buy a bear (Series 1)</Heading2>
           {showConfetti && (
             <Heading2 className="success">Congrats! you've got bear number {bearIndex} !!</Heading2>
           )}
@@ -95,7 +95,11 @@ const MyProfile = () => {
                   <p className="bnb-price"> BNB 0.0375 </p>
                   <p className="usd-price">($10)</p>
                 </div>
-                <BuyButton isLoading={loading} disabled={loading || !isMetamask} onClick={getBear}>
+                <BuyButton
+                  isLoading={loading}
+                  disabled={loading || !isMetamask || chainId !== +process.env.NEXT_PUBLIC_CHAIN_ID}
+                  onClick={getBear}
+                >
                   BUY NOW
                 </BuyButton>
                 {loading && (

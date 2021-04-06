@@ -13,7 +13,7 @@ export const GlobalProvider = ({ children }) => {
     Contract.setProvider(window.web3?.currentProvider);
     setState({
       isMetamask: window.web3 ? true : false,
-      contract: new Contract(bearsABI, "0xf5791A3963E5E5853c7a190066cBE9d46Ea5daEf"),
+      contract: new Contract(bearsABI, process.env.NEXT_PUBLIC_CONTRACT_ADDRESS),
     });
   }, []);
 
