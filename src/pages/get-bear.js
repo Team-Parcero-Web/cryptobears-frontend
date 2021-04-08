@@ -118,8 +118,8 @@ const MyProfile = () => {
               The bear you are about to get is an <span>unique</span> friend that's ready to go have
               fun with you
             </p>
-            <img className="gold-paw paw" src="/images/paw1.png" />
-            <img className="purple-paw paw" src="/images/paw2.png" />
+            <img className="gold-paw paw" src="/images/paw1.png" alt="Paw coin" />
+            <img className="purple-paw paw" src="/images/paw2.png" alt="Paw coin" />
             <p>
               Each one of our furry pals is special in their own way, some have hobbies, <br /> some
               like dressing up, some even are royalty, but all of them want the same thing: to be

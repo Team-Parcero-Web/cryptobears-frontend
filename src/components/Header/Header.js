@@ -39,9 +39,9 @@ const Header = () => {
       <Container className="container">
         <InnerHeader>
           <Logo>
-            <Link href="/" passHref>
-              <a>{/* <img src="/images/paw2.png" alt="logo" /> */}</a>
-            </Link>
+            {/* <Link href="/" passHref>
+              <a> <img src="/images/paw2.png" alt="logo" /> </a>
+            </Link> */}
           </Logo>
           <div>
             <nav>

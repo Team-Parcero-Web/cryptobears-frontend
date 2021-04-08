@@ -25,7 +25,7 @@ const Footer = () => {
         </li>
 
         <li>
-          <img src="/images/paw1.png" />
+          <img src="/images/paw1.png" alt="Paw coin" />
         </li>
       </ul>
     </Wrapper>

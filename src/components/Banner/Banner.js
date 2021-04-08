@@ -16,9 +16,9 @@ const Banner = () => {
                 <GetButton className="mt-4">Befriend a bear</GetButton>
               </a>
             </Link>
-            <img src="/images/paw3.png" />
+            <img src="/images/paw3.png" alt="paw coin" />
           </div>
-          <img src="/images/paw1.png" />
+          <img src="/images/paw1.png" alt="paw coin" />
         </MainContent>
       </Container>
     </Wrapper>
