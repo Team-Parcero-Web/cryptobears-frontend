@@ -40,6 +40,7 @@ export const CenteredContent = styled.div`
 export const Heading = styled.h1`
   font-family: "Oswald", sans-serif, "Oswald";
   font-size: ${({ xlarge }) => (xlarge ? "7rem" : "5rem")};
+  text-align: ${({ center }) => (center ? "center" : "left")};
   letter-spacing: 2px;
   margin: 0;
   z-index: 2;
@@ -68,6 +69,24 @@ export const Heading3 = styled(Heading)`
   @media (max-width: 768px) {
     font-size: 2rem;
   }
+`;
+
+export const Heading4 = styled(Heading)`
+  font-size: 2.4rem;
+  letter-spacing: 1px;
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+  }
+`;
+
+export const PurpleHeader = styled.h3`
+  background-color: ${({ theme }) => theme.colors.purple2};
+  color: white;
+  font-size: 1.6rem;
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-bottom: 0;
 `;
 
 export const Info = styled.p`
@@ -193,7 +212,14 @@ export const PurpleLine = styled.div`
   position: absolute;
   width: 100%;
   height: 5px;
-  background-color: ${({ theme }) => theme.colors.purple};
+  background-color: ${({ theme }) => theme.colors.purple2};
+`;
+export const GreyLine = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background-color: ${({ theme }) => theme.colors.grey};
+  left: 0;
 `;
 
 export const Spinner = styled.div`

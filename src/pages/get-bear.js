@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 import { client } from "../api/client";
 import Layout from "../components/Layout/Layout";
-import { Button, Container, Heading2, Heading3, PurpleLine } from "../components/lib";
+import { Button, Container, Heading2, Heading3, PurpleLine, PurpleHeader } from "../components/lib";
 import { useWeb3Context } from "../Context/Web3Context";
 import Confetti from "react-confetti";
 import useWindowSize from "../hooks/useWindowSize";
@@ -133,9 +133,6 @@ const MyProfile = () => {
 };
 
 const Inner = styled.div`
-  margin-top: 7rem;
-  min-height: calc(100vh - 21rem);
-
   .success {
     color: ${({ theme }) => theme.colors.purple};
     text-align: center;
@@ -199,15 +196,6 @@ const BearImgWrapper = styled.div`
     height: auto;
     padding: 2rem 1rem;
   }
-`;
-
-const PurpleHeader = styled.h3`
-  background-color: ${({ theme }) => theme.colors.purple2};
-  color: white;
-  font-size: 1.6rem;
-  padding: 2rem 1rem;
-  text-align: center;
-  margin-bottom: 0;
 `;
 
 const BuyDetails = styled.div`

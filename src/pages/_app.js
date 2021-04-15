@@ -4,6 +4,9 @@ import { theme } from "../styles/theme";
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import { GlobalProvider } from "../Context/Web3Context";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+
 import Head from "next/head";
 import "nprogress/nprogress.css";
 
@@ -21,7 +24,7 @@ function getLibrary(provider) {
   return library;
 }
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps, router }) {
   return (
     <>
       <Head>
@@ -31,7 +34,30 @@ export default function App({ Component, pageProps }) {
       <GlobalProvider>
         <ThemeProvider theme={theme}>
           <Web3ReactProvider getLibrary={getLibrary}>
-            <Component {...pageProps} />
+            <AnimatePresence initial={false}>
+              <motion.div
+                variants={{
+                  pageInitial: {
+                    opacity: 0,
+                  },
+                  pageAnimate: {
+                    opacity: 1,
+                    transition: {
+                      duration: 1,
+                    },
+                  },
+                  pageExit: {
+                    opacity: 0,
+                  },
+                }}
+                initial="pageInitial"
+                animate="pageAnimate"
+                exit="pageExit"
+                key={router.route}
+              >
+                <Component {...pageProps} />
+              </motion.div>
+            </AnimatePresence>
           </Web3ReactProvider>
         </ThemeProvider>
       </GlobalProvider>

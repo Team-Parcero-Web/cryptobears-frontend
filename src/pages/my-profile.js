@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { client } from "../api/client";
 import { useWeb3Context } from "../Context/Web3Context";
 import BearCard from "../components/BearCard/BearCard";
+import Layout from "../components/Layout/Layout";
 
 const MyProfile = () => {
   const { account, activate } = useWeb3React();
@@ -35,8 +36,7 @@ const MyProfile = () => {
   }, []);
 
   return (
-    <>
-      <Header />
+    <Layout>
       <Container className="container">
         <Inner>
           <Heading2>My Profile</Heading2>
@@ -59,7 +59,7 @@ const MyProfile = () => {
           </BearsGrid>
         </Inner>
       </Container>
-    </>
+    </Layout>
   );
 };
 

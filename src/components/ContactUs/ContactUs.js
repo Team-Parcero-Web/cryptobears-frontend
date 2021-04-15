@@ -49,7 +49,7 @@ const ContactUs = () => {
     <Wrapper id="contact">
       <Inner>
         <ContactCard>
-          <Heading2>Let's get in touch!</Heading2>
+          <Heading2>Join our Waitlist!</Heading2>
           <form>
             <FormControl>
               <Label htmlFor="fullname">Full Name</Label>
