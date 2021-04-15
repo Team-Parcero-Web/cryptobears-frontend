@@ -34,7 +34,7 @@ export default function App({ Component, pageProps, router }) {
       <GlobalProvider>
         <ThemeProvider theme={theme}>
           <Web3ReactProvider getLibrary={getLibrary}>
-            <AnimatePresence initial={false}>
+            <AnimatePresence initial={false} exitBeforeEnter>
               <motion.div
                 variants={{
                   pageInitial: {
@@ -42,9 +42,6 @@ export default function App({ Component, pageProps, router }) {
                   },
                   pageAnimate: {
                     opacity: 1,
-                    transition: {
-                      duration: 1,
-                    },
                   },
                   pageExit: {
                     opacity: 0,
