@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { useWeb3Context } from "../../Context/Web3Context";
 import { CenteredContent, Container, Button, Heading3 } from "../lib";
-import { NoEthereumProviderError, UserRejectedRequestError } from "@web3-react/injected-connector";
+import { UserRejectedRequestError } from "@web3-react/injected-connector";
 
 const About = () => {
   const { library, chainId, account, activate, error } = useWeb3React();
@@ -49,9 +49,8 @@ const About = () => {
           <Content>
             <Heading3>About our series 1 bears:</Heading3>
 
-            {chainId && chainId !== process.env.NEXT_PUBLIC_CHAIN_ID && (
+            {chainId && chainId !== +process.env.NEXT_PUBLIC_CHAIN_ID && (
               <h1 style={{ color: "tomato" }}>
-                {" "}
                 <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b> Whoops, you're not in the BNB
                 network
               </h1>
@@ -64,7 +63,6 @@ const About = () => {
 
             {!account && (
               <h1 style={{ color: "tomato" }}>
-                {" "}
                 <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b> It's seems that you're not
                 logged in
               </h1>
@@ -84,7 +82,7 @@ const About = () => {
                 login
               </Button>
             )}
-            {account && chainId !== process.env.NEXT_PUBLIC_CHAIN_ID && (
+            {account && chainId !== +process.env.NEXT_PUBLIC_CHAIN_ID && (
               <div>
                 <Button className="mt-1" onClick={() => addBNB()}>
                   Add or switch to BNB

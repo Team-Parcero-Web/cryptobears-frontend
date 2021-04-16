@@ -229,7 +229,7 @@ const BuyDescription = styled.div`
   border-radius: 10px;
   position: relative;
 
-  padding: 1rem 4rem;
+  padding: 2rem 4rem;
 
   .paw {
     position: absolute;
@@ -249,8 +249,12 @@ const BuyDescription = styled.div`
     top: 15%;
     right: -5%;
     @media (max-width: 768px) {
-      width: 50px;
+      width: 70px;
     }
+  }
+
+  p:first-child {
+    margin-bottom: 2rem;
   }
   p {
     font-size: 1.6rem;

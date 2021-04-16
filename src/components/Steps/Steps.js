@@ -22,5 +22,9 @@ const StepsGrid = styled.div`
   padding: 10rem 2rem;
   display: grid;
   width: 100%;
+
+  @media (max-width: 976px) {
+    padding: 3rem 2rem 7rem;
+  }
 `;
 export default Steps;

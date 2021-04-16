@@ -18,17 +18,16 @@ const Scrolling = styled.div`
   width: 100%;
   text-align: center;
   color: black;
-  z-index: 20;
+  z-index: 1;
   background-color: transparent;
-  margin-top: 100px;
+  margin-top: 40px;
   left: 50%;
   transform: translatex(-50%);
 
   @media (max-width: 976px) {
     font-size: 1.2rem;
-    margin-bottom: 3rem;
-    margin-top: 8rem;
     max-width: 100%;
+    top: 40px;
   }
 `;
 export default Greetings;

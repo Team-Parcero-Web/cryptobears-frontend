@@ -23,11 +23,17 @@ const MyProfile = () => {
   }, [account]);
 
   React.useEffect(() => {
+    if (!account) {
+      return;
+    }
+
     client(`bears/?owner=${account}`).then((data) => {
+      console.log(data);
+
       setBears(data);
       setMyBears(data);
     });
-  }, []);
+  }, [account]);
 
   React.useEffect(() => {
     if (window.sessionStorage.getItem("isLoggedIn") === "true") {
@@ -54,7 +60,7 @@ const MyProfile = () => {
           <Heading3 className="mt-4">Your Bears:</Heading3>
           <BearsGrid>
             {myBears.map((bear) => (
-              <BearCard bear={bear} />
+              <BearCard bear={bear} key={bear.index} />
             ))}
           </BearsGrid>
         </Inner>
@@ -64,7 +70,7 @@ const MyProfile = () => {
 };
 
 const Inner = styled.div`
-  margin-top: 7rem;
+  margin-top: 2rem;
   .account {
     color: ${({ theme }) => theme.colors.purple};
   }
@@ -76,7 +82,7 @@ const ProfileGrid = styled.div`
   justify-items: center;
 `;
 
-const BearsGrid = styled.div`
+export const BearsGrid = styled.div`
   margin-top: 2rem;
   display: grid;
   justify-items: center;
@@ -84,7 +90,7 @@ const BearsGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 `;
 export default MyProfile;

@@ -1,15 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout/Layout";
-import {
-  Button,
-  Container,
-  Heading3,
-  Heading4,
-  PurpleLine,
-  GreyLine,
-  Label,
-} from "../../components/lib";
+import { Container, Heading3, Heading4, PurpleLine, GreyLine, Label } from "../../components/lib";
 import styled from "styled-components";
 import { client } from "../../api/client";
 import { useWeb3Context } from "../../Context/Web3Context";
@@ -18,6 +10,7 @@ const BearDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const [bear, setBear] = React.useState();
+  const [owner, setOwner] = React.useState("");
   const [bearSales, setBearStales] = React.useState({});
   const [bearBids, setBearBids] = React.useState({});
 
@@ -38,6 +31,11 @@ const BearDetail = () => {
         .bearsOfferedForSale(id)
         .call()
         .then((data) => setBearStales(data));
+
+      contract?.methods
+        .bearIndexToAddress(id)
+        .call()
+        .then((data) => setOwner(data));
     }
   }, [id]);
 
@@ -53,7 +51,7 @@ const BearDetail = () => {
                   <img src="/images/bears.png" alt="Bear" className="bear-img" />
                 </div>
                 <Heading4 center className="bear-name">
-                  Bear # 1
+                  Bear # {id}
                 </Heading4>
                 <GreyLine />
                 <Label className="mt-5 bold">Has Bids?</Label>
@@ -72,9 +70,11 @@ const BearDetail = () => {
 
               <div className="grey">
                 <Heading3>Bear Details</Heading3>
-                <Label className="mt-2">Owner: {bear?.owner}</Label>
+                <Label className="mt-2">Owner: {owner}</Label>
                 <Label className="mt-5 bold">Highest bid:</Label>
-                <p className="text-2">{bearBids.value}</p>
+                <p className="text-2">
+                  {bearBids.value ? +bearBids.value / 1000000000000000000 : ""}
+                </p>
               </div>
             </ProfileRight>
           </BearDetailLayout>
@@ -88,6 +88,10 @@ const BearDetailLayout = styled.div`
   display: grid;
   grid-template-columns: 0.5fr 1fr;
   grid-column-gap: 3rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const Inner = styled.div`
@@ -132,7 +136,9 @@ const ProfileLeft = styled.div`
 `;
 const ProfileRight = styled.div`
   position: relative;
-
+  @media (max-width: 768px) {
+    margin-top: 3rem;
+  }
   .pink {
     display: flex;
     align-items: center;
@@ -144,6 +150,8 @@ const ProfileRight = styled.div`
 
   .grey {
     padding: 2rem 3rem;
+    word-break: break-all;
+    white-space: pre-line;
   }
 `;
 

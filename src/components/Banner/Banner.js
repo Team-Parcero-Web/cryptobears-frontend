@@ -31,6 +31,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   background-color: ${({ theme }) => theme.colors.pink};
+  margin-top: -4rem;
   height: 700px;
 
   @media (max-width: 768px) {
@@ -70,12 +71,16 @@ const MainContent = styled(CenteredContent)`
 
   @media (max-width: 768px) {
     display: grid;
-    margin-top: 10rem;
+    margin-top: 8rem;
     justify-items: center;
+    text-align: center;
 
     .left {
       max-width: 100%;
       position: relative;
+      h1 {
+        text-align: center;
+      }
       img {
         display: none;
       }

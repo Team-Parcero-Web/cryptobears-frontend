@@ -45,8 +45,8 @@ const Header = () => {
           </Logo>
           <div>
             <nav>
-              <Link href="/" passHref>
-                <NavButton>About</NavButton>
+              <Link href="/bears" passHref>
+                <NavButton>Bears</NavButton>
               </Link>
               <Link href="/#contact" passHref>
                 <NavButton>contact</NavButton>
@@ -54,6 +54,11 @@ const Header = () => {
               {!account && (
                 <Link href="/login" passHref>
                   <NavButton>Sign in</NavButton>
+                </Link>
+              )}
+              {account && (
+                <Link href="/my-profile" passHref>
+                  <NavButton>my profile</NavButton>
                 </Link>
               )}
               {account && (
@@ -65,11 +70,6 @@ const Header = () => {
                 >
                   Sign out
                 </NavButton>
-              )}
-              {account && (
-                <Link href="/my-profile" passHref>
-                  <NavButton>my profile</NavButton>
-                </Link>
               )}
             </nav>
           </div>
