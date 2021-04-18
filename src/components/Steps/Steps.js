@@ -1,8 +1,9 @@
 import React from "react";
-import { CenteredContent, Heading } from "../lib";
+import { CenteredContent, Heading, GetButton } from "../lib";
 import styled from "styled-components";
 import StepRow from "../StepRow/StepRow";
 import steps from "../../data/steps";
+import Link from "next/link";
 
 const Steps = () => {
   return (
@@ -12,6 +13,11 @@ const Steps = () => {
         {steps.map((step) => (
           <StepRow step={step} textPosition={step.id % 2 == 0 ? "right" : "left"} key={step.id} />
         ))}
+        <Link href="/get-bear">
+          <a href="">
+            <GetButton className="mt-5">Befriend a bear</GetButton>
+          </a>
+        </Link>
       </StepsGrid>
     </CenteredContent>
   );
@@ -19,7 +25,7 @@ const Steps = () => {
 
 const StepsGrid = styled.div`
   text-align: center;
-  padding: 10rem 2rem;
+  padding: 10rem 2rem 3rem;
   display: grid;
   width: 100%;
 

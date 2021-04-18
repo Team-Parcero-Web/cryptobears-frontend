@@ -65,7 +65,7 @@ const Header = () => {
                 <NavButton
                   onClick={() => {
                     deactivate();
-                    window.sessionStorage.setItem("isLoggedIn", false);
+                    window.localStorage.setItem("isLoggedIn", false);
                   }}
                 >
                   Sign out

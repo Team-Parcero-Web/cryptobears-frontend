@@ -18,17 +18,11 @@ const login = () => {
     activate(injected).then((data) => {
       router.push("/my-profile");
     });
-    window.sessionStorage.setItem("isLoggedIn", true);
+    window.localStorage.setItem("isLoggedIn", true);
   }
 
   React.useEffect(() => {
-    if (window.sessionStorage.getItem("isLoggedIn") === "true") {
-      activate(injected);
-    }
-  }, []);
-
-  React.useEffect(() => {
-    if (account && window.sessionStorage.getItem("isLoggedIn") === "true") {
+    if (account && window.localStorage.getItem("isLoggedIn") === "true") {
       router.push("/");
     }
   }, [account]);

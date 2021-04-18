@@ -1,5 +1,13 @@
 import React from "react";
-import { Container, Heading, CenteredContent, floating, floating2, Button } from "../lib";
+import {
+  Container,
+  Heading,
+  CenteredContent,
+  floating,
+  floating2,
+  Button,
+  GetButton,
+} from "../lib";
 import styled from "styled-components";
 import Link from "next/link";
 
@@ -38,11 +46,6 @@ const Wrapper = styled.div`
     height: 600px;
     align-items: start;
   }
-`;
-
-const GetButton = styled(Button)`
-  font-size: 2.4rem;
-  width: 240px;
 `;
 
 const MainContent = styled(CenteredContent)`

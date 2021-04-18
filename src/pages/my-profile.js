@@ -17,7 +17,7 @@ const MyProfile = () => {
   const [bears, setBears] = React.useState([]);
 
   React.useEffect(() => {
-    if (!account && window.sessionStorage.getItem("isLoggedIn") === "false") {
+    if (!account && window.localStorage.getItem("isLoggedIn") === "false") {
       router.push("/login");
     }
   }, [account]);
@@ -28,15 +28,13 @@ const MyProfile = () => {
     }
 
     client(`bears/?owner=${account}`).then((data) => {
-      console.log(data);
-
       setBears(data);
       setMyBears(data);
     });
   }, [account]);
 
   React.useEffect(() => {
-    if (window.sessionStorage.getItem("isLoggedIn") === "true") {
+    if (window.localStorage.getItem("isLoggedIn") === "true") {
       activate(injected);
     }
   }, []);

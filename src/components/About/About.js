@@ -2,22 +2,17 @@ import { useWeb3React } from "@web3-react/core";
 import React from "react";
 import styled from "styled-components";
 import { useWeb3Context } from "../../Context/Web3Context";
-import { CenteredContent, Container, Button, Heading3 } from "../lib";
+import { CenteredContent, Container, Button, Heading3, GetButton } from "../lib";
 import { UserRejectedRequestError } from "@web3-react/injected-connector";
+import Link from "next/link";
 
 const About = () => {
   const { library, chainId, account, activate, error } = useWeb3React();
   const { injected } = useWeb3Context();
 
-  React.useEffect(() => {
-    if (window.sessionStorage.getItem("isLoggedIn") === "true") {
-      activate(injected);
-    }
-  }, []);
-
   function handleLogin() {
     activate(injected);
-    window.sessionStorage.setItem("isLoggedIn", true);
+    window.localStorage.setItem("isLoggedIn", true);
   }
 
   async function addBNB() {
@@ -76,6 +71,11 @@ const About = () => {
               market, buy a &quot;cryptobear&quot; and change the world of crypto, one collectible
               bear at a time. What more extraordinary way to protect our investments?
             </p>
+            <Link href="/get-bear">
+              <a href="">
+                <GetButton className="mt-4">Befriend a bear</GetButton>
+              </a>
+            </Link>
 
             {!account && (
               <Button className="mt-1" onClick={handleLogin} style={{ zIndex: 99 }}>

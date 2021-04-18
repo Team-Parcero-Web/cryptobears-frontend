@@ -1,10 +1,19 @@
 import React from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout/Layout";
-import { Container, Heading3, Heading4, PurpleLine, GreyLine, Label } from "../../components/lib";
+import {
+  Container,
+  Heading3,
+  Heading4,
+  PurpleLine,
+  GreyLine,
+  Label,
+  Spinner,
+} from "../../components/lib";
 import styled from "styled-components";
 import { client } from "../../api/client";
 import { useWeb3Context } from "../../Context/Web3Context";
+import Skeleton from "react-loading-skeleton";
 
 const BearDetail = () => {
   const router = useRouter();
@@ -48,7 +57,11 @@ const BearDetail = () => {
               <div className="pink" />
               <div className="grey">
                 <div className="bear-img-wrapper">
-                  <img src="/images/bears.png" alt="Bear" className="bear-img" />
+                  {bear ? (
+                    <img src={bear?.image} alt="Bear" className="bear-img" />
+                  ) : (
+                    <Skeleton circle={true} height={120} width={120} />
+                  )}
                 </div>
                 <Heading4 center className="bear-name">
                   Bear # {id}
@@ -70,10 +83,15 @@ const BearDetail = () => {
 
               <div className="grey">
                 <Heading3>Bear Details</Heading3>
-                <Label className="mt-2">Owner: {owner}</Label>
+
+                <Label className="mt-2">Owner: {owner || <Skeleton width={200} />}</Label>
                 <Label className="mt-5 bold">Highest bid:</Label>
                 <p className="text-2">
-                  {bearBids.value ? +bearBids.value / 1000000000000000000 : ""}
+                  {bearBids.value ? (
+                    +bearBids.value / 1000000000000000000
+                  ) : (
+                    <Skeleton width={100} />
+                  )}
                 </p>
               </div>
             </ProfileRight>
@@ -116,6 +134,7 @@ const ProfileLeft = styled.div`
     width: 150px;
     height: 150px;
     overflow: hidden;
+    background-color: white;
     display: grid;
     place-content: center;
     object-fit: cover;
@@ -127,7 +146,8 @@ const ProfileLeft = styled.div`
     transform: translateX(50%);
   }
   .bear-img {
-    min-width: 170px;
+    min-width: 200px;
+    margin-bottom: 50px;
   }
 
   .bear-name {

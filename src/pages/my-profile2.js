@@ -17,7 +17,7 @@ const MyProfile = () => {
   const [bears, setBears] = React.useState([]);
 
   React.useEffect(() => {
-    if (!account && window.sessionStorage.getItem("isLoggedIn") === "false") {
+    if (!account && window.localStorage.getItem("isLoggedIn") === "false") {
       router.push("/login");
     }
   }, [account]);
@@ -27,12 +27,6 @@ const MyProfile = () => {
       setBears(data);
       setMyBears(data.slice(0, 14));
     });
-  }, []);
-
-  React.useEffect(() => {
-    if (window.sessionStorage.getItem("isLoggedIn") === "true") {
-      activate(injected);
-    }
   }, []);
 
   return (

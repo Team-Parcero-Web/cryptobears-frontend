@@ -156,6 +156,20 @@ export const BtnLink = styled.div`
   }
 `;
 
+export const GetButton = styled(Button)`
+  font-size: 2.4rem;
+  width: 240px;
+
+  ${(props) =>
+    props.responsive &&
+    css`
+      @media only screen and (max-width: 480px) {
+        font-size: 1.6rem;
+        width: 140px;
+      }
+    `}
+`;
+
 export const Card = styled.div`
   padding: 4rem;
   border-radius: 5px;
@@ -230,9 +244,9 @@ export const Spinner = styled.div`
   font-size: 10px;
   position: relative;
   text-indent: -9999em;
-  border-top: 0.5em solid rgba(255, 255, 255, 0.2);
-  border-right: 0.5em solid rgba(255, 255, 255, 0.2);
-  border-bottom: 0.5em solid rgba(255, 255, 255, 0.2);
+  border-top: 0.5em solid rgba(0, 0, 0, 0.2);
+  border-right: 0.5em solid rgba(0, 0, 0, 0.2);
+  border-bottom: 0.5em solid rgba(0, 0, 0, 0.2);
   border-left: 0.5em solid #ffffff;
 
   transform: translateZ(0);

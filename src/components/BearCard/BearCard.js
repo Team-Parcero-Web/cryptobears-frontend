@@ -1,14 +1,17 @@
 import React from "react";
 import { Label } from "../lib";
 import styled from "styled-components";
+import Skeleton from "react-loading-skeleton";
 
-const BearCard = ({ bear }) => {
-  const { image, id } = bear;
-  const imgSrc = image.split("?")[0];
+const BearCard = ({ bear, mobile }) => {
+  const [imgLoaded, setImgLoaded] = React.useState(false);
+
+  const { image, index } = bear;
   return (
     <Wrapper>
-      <img src="/images/bears.png" alt="bear" />
-      <Label className="mt-3">Bear number {id}</Label>
+      {!imgLoaded && <Skeleton height={mobile ? 120 : 250} width={mobile ? 100 : 220} />}
+      <img src={image} alt="bear" onLoad={() => setImgLoaded(true)} />
+      <Label className="mt-3">Bear number {index}</Label>
     </Wrapper>
   );
 };

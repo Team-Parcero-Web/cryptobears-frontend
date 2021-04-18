@@ -24,21 +24,12 @@ const MyProfile = () => {
 
   React.useEffect(() => {
     if (
-      (!account && window.sessionStorage.getItem("isLoggedIn") === "false") ||
-      !window.sessionStorage.getItem("isLoggedIn")
+      (!account && window.localStorage.getItem("isLoggedIn") === "false") ||
+      !window.localStorage.getItem("isLoggedIn")
     ) {
       router.push("/login");
     }
   }, [account]);
-
-  React.useEffect(() => {
-    if (
-      window.sessionStorage.getItem("isLoggedIn") &&
-      window.sessionStorage.getItem("isLoggedIn") === "true"
-    ) {
-      activate(injected);
-    }
-  }, []);
 
   React.useEffect(() => {
     if (bearIndex) {
