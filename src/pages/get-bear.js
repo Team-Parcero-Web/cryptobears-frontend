@@ -10,11 +10,11 @@ import Confetti from "react-confetti";
 import useWindowSize from "../hooks/useWindowSize";
 
 const MyProfile = () => {
-  const { account, activate, chainId } = useWeb3React();
+  const { account, library, chainId } = useWeb3React();
   const {
-    injected,
     state: { contract, value, isMetamask },
   } = useWeb3Context();
+
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [showConfetti, setShowConfetti] = React.useState(false);
@@ -56,6 +56,22 @@ const MyProfile = () => {
     }
   }
 
+  async function addBNB() {
+    await library.jsonRpcFetchFunc("wallet_addEthereumChain", [
+      {
+        chainId: "0x38",
+        chainName: "Smart Chain",
+        nativeCurrency: {
+          name: "Bincance",
+          symbol: "BNB",
+          decimals: 18,
+        },
+        rpcUrls: ["https://bsc-dataseed.binance.org/"],
+        blockExplorerUrls: ["https://bscscan.com"],
+      },
+    ]);
+  }
+
   return (
     <Layout>
       {showConfetti && <Confetti width={width} height={height} numberOfPieces={120} />}
@@ -93,6 +109,17 @@ const MyProfile = () => {
                 >
                   BUY NOW
                 </BuyButton>
+
+                {account && chainId !== +process.env.NEXT_PUBLIC_CHAIN_ID && (
+                  <div>
+                    <p className="price-title mt-2 error">
+                      You have to be on the BNB SmartChain in order to get a Bear
+                    </p>
+                    <Button className="mt-1" onClick={() => addBNB()}>
+                      Add or switch to BNB
+                    </Button>
+                  </div>
+                )}
                 {loading && (
                   <p className="price-title mt-2">Hold on! your transaction is being processed</p>
                 )}

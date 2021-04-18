@@ -15,22 +15,6 @@ const About = () => {
     window.localStorage.setItem("isLoggedIn", true);
   }
 
-  async function addBNB() {
-    await library.jsonRpcFetchFunc("wallet_addEthereumChain", [
-      {
-        chainId: "0x38",
-        chainName: "Smart Chain",
-        nativeCurrency: {
-          name: "Bincance",
-          symbol: "BNB",
-          decimals: 18,
-        },
-        rpcUrls: ["https://bsc-dataseed.binance.org/"],
-        blockExplorerUrls: ["https://bscscan.com"],
-      },
-    ]);
-  }
-
   return (
     <Container id="about">
       <Wrapper>
@@ -81,13 +65,6 @@ const About = () => {
               <Button className="mt-1" onClick={handleLogin} style={{ zIndex: 99 }}>
                 login
               </Button>
-            )}
-            {account && chainId !== +process.env.NEXT_PUBLIC_CHAIN_ID && (
-              <div>
-                <Button className="mt-1" onClick={() => addBNB()}>
-                  Add or switch to BNB
-                </Button>
-              </div>
             )}
           </Content>
         </Inner>
