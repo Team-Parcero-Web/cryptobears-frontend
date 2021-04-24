@@ -1,6 +1,15 @@
 import React from "react";
-import { Container, Heading, CenteredContent, floating, floating2 } from "../lib";
-import styled, { keyframes } from "styled-components";
+import {
+  Container,
+  Heading,
+  CenteredContent,
+  floating,
+  floating2,
+  Button,
+  GetButton,
+} from "../lib";
+import styled from "styled-components";
+import Link from "next/link";
 
 const Banner = () => {
   return (
@@ -8,10 +17,16 @@ const Banner = () => {
       <Container>
         <MainContent>
           <div className="left">
-            <Heading>Lorem ipsum, dolor sit amet consectetur adipisicing.</Heading>
-            <img src="/ether2.png" width="auto" height="auto" />
+            <Heading xlarge={true}>CryptoBears.</Heading>
+            <Heading>Welcome to the forest of these restless bears.</Heading>
+            <Link href="/get-bear">
+              <a href="">
+                <GetButton className="mt-4">Befriend a bear</GetButton>
+              </a>
+            </Link>
+            <img src="/images/paw3.png" alt="paw coin" />
           </div>
-          <img src="/ether.svg" width="auto" height="auto" />
+          <img src="/images/paw1.png" alt="paw coin" />
         </MainContent>
       </Container>
     </Wrapper>
@@ -23,8 +38,14 @@ export default Banner;
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  background-color: #f1c8db;
+  background-color: ${({ theme }) => theme.colors.pink};
+  margin-top: -4rem;
   height: 700px;
+
+  @media (max-width: 768px) {
+    height: 600px;
+    align-items: start;
+  }
 `;
 
 const MainContent = styled(CenteredContent)`
@@ -35,7 +56,7 @@ const MainContent = styled(CenteredContent)`
       width: 100px;
       height: auto;
       z-index: 11;
-      bottom: 0px;
+      bottom: -75px;
       right: 150px;
       display: block;
       position: absolute;
@@ -45,8 +66,33 @@ const MainContent = styled(CenteredContent)`
 
   img {
     transform: rotate(50deg);
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
+
     animation: ${floating} 6s ease-in-out infinite;
+  }
+
+  @media (max-width: 768px) {
+    display: grid;
+    margin-top: 8rem;
+    justify-items: center;
+    text-align: center;
+
+    .left {
+      max-width: 100%;
+      position: relative;
+      h1 {
+        text-align: center;
+      }
+      img {
+        display: none;
+      }
+    }
+
+    img {
+      margin-top: 30px !important;
+      width: 200px;
+      height: 200px;
+    }
   }
 `;

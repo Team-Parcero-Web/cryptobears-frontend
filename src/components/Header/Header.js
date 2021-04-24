@@ -1,25 +1,76 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "../lib";
 import Link from "next/link";
 import styled from "styled-components";
+import { useWeb3React } from "@web3-react/core";
+import { debounce } from "../../utils/debounce";
+import Router from "next/router";
+import NProgress from "nprogress";
+
+Router.onRouteChangeStart = (url) => {
+  NProgress.start();
+  NProgress.configure({ showSpinner: false });
+};
+
+Router.onRouteChangeComplete = () => NProgress.done();
+Router.onRouterChangeError = () => NProgress.done();
 
 const Header = () => {
+  const { account, deactivate } = useWeb3React();
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  const handleScroll = debounce(() => {
+    const currentScrollPos = window.pageYOffset;
+
+    setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+
+    setPrevScrollPos(currentScrollPos);
+  }, 10);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollPos, visible, handleScroll]);
+
   return (
-    <Wrapper>
-      <Container>
+    <Wrapper visible={visible}>
+      <Container className="container">
         <InnerHeader>
           <Logo>
-            <Link href="/">
-              <a>
-                <img src="/logo-shakti.png" alt="logo" /> <p>hakti</p>
-              </a>
-            </Link>
+            {/* <Link href="/" passHref>
+              <a> <img src="/images/paw2.png" alt="logo" /> </a>
+            </Link> */}
           </Logo>
           <div>
             <nav>
-              <NavButton href="/">About</NavButton>
-              <NavButton href="/">Bears</NavButton>
-              <NavButton href="/">contact</NavButton>
+              <Link href="/bears" passHref>
+                <NavButton>Bears</NavButton>
+              </Link>
+              <Link href="/#contact" passHref>
+                <NavButton>contact</NavButton>
+              </Link>
+              {!account && (
+                <Link href="/login" passHref>
+                  <NavButton>Sign in</NavButton>
+                </Link>
+              )}
+              {account && (
+                <Link href="/my-profile" passHref>
+                  <NavButton>my profile</NavButton>
+                </Link>
+              )}
+              {account && (
+                <NavButton
+                  onClick={() => {
+                    deactivate();
+                    window.localStorage.setItem("isLoggedIn", false);
+                  }}
+                >
+                  Sign out
+                </NavButton>
+              )}
             </nav>
           </div>
         </InnerHeader>
@@ -33,14 +84,21 @@ export default Header;
 const Wrapper = styled.header`
   height: 80px;
   width: 100%;
-  position: absolute;
-  top: 0px;
+  position: fixed;
+  top: ${({ visible }) => (visible ? "0" : "-80px")};
   z-index: 10;
+  transition: top 0.3s, background-color 0.5s 0.1s;
+  background-color: ${({ theme }) => theme.colors.pink};
+  .container {
+    height: 80px;
+    padding: 0px 2rem;
+  }
 `;
 
 const Logo = styled.div`
   img {
-    width: 40px;
+    width: 100px;
+    margin-top: 20px;
   }
   p {
     display: inline;
@@ -75,14 +133,13 @@ const NavButton = styled.a`
   transition: all 0.2s ease;
   margin-bottom: 30px;
   top: 0;
+  cursor: pointer;
 
   @media (max-width: 976px) {
     font-size: 1.2rem;
     margin: 0 7px;
   }
-  &:hover {
-    top: -3px;
-  }
+
   &:last-child {
     margin-right: 0;
   }
