@@ -41,13 +41,13 @@ const Login = () => {
         </Button>
         {error && (
           <Info>
-            Didn't work? Maybe you have a pending request on your metamask
+            Didn&apos;t work? Maybe you have a pending request on your metamask
             extension!
           </Info>
         )}
         {!isMetamask && (
           <Info>
-            We couldn't find the metamask extension in your browser, please
+            We couldn&apos;t find the metamask extension in your browser, please
             install it and try again!
           </Info>
         )}

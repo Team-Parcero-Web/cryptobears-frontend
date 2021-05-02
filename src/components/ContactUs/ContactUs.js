@@ -55,7 +55,7 @@ const ContactUs = () => {
       <Inner>
         <ContactCard>
           <Heading2>Join our Waitlist!</Heading2>
-          <form onSbumit={handleSendMail}>
+          <form onSubmit={handleSendMail}>
             <FormControl>
               <Label htmlFor="fullname">Full Name</Label>
               <Input

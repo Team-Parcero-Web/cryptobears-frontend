@@ -12,11 +12,12 @@ export const GlobalProvider = ({ children }) => {
   const [state, setState] = React.useState({
     contract: null,
     isMetamask: true,
-    value: 0,
+    bearValue: 0,
   });
 
   React.useEffect(() => {
     Contract.setProvider(window.web3?.currentProvider);
+
     setState({
       ...state,
       isMetamask: !!window.web3,
@@ -27,7 +28,14 @@ export const GlobalProvider = ({ children }) => {
     });
   }, []);
 
-  const customInitState = { injected, state, setState };
+  const changeState = React.useCallback(
+    statePortion => {
+      setState({ ...state, ...statePortion });
+    },
+    [state.contract],
+  );
+
+  const customInitState = { injected, state, setState: changeState };
 
   return (
     <Web3Context.Provider value={customInitState}>

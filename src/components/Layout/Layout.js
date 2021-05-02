@@ -7,7 +7,11 @@ import Header from '../Header/Header';
 
 const Layout = ({ children }) => {
   const { activate, chainId } = useWeb3React();
-  const { injected, setState, state } = useWeb3Context();
+  const {
+    injected,
+    setState,
+    state: { contract },
+  } = useWeb3Context();
 
   React.useEffect(() => {
     if (
@@ -20,18 +24,15 @@ const Layout = ({ children }) => {
   }, [activate, injected]);
 
   React.useEffect(() => {
-    if (chainId === +process.env.NEXT_PUBLIC_CHAIN_ID) {
-      state.contract.methods
+    if (chainId === +process.env.NEXT_PUBLIC_CHAIN_ID && contract) {
+      contract.methods
         .claimPrice()
         .call()
         .then(data => {
-          setState({
-            ...state,
-            value: data,
-          });
+          setState({ bearValue: data });
         });
     }
-  }, [chainId, setState]);
+  }, [chainId, contract, setState]);
 
   return (
     <>

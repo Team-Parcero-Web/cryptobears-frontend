@@ -20,7 +20,7 @@ const MyProfile = () => {
   const { account, library, chainId, activate } = useWeb3React();
   const {
     injected,
-    state: { contract, value, isMetamask },
+    state: { contract, bearValue, isMetamask },
   } = useWeb3Context();
 
   const router = useRouter();
@@ -53,7 +53,7 @@ const MyProfile = () => {
       setShowConfetti(false);
       await contract.methods
         .getBear()
-        .send({ from: account, value })
+        .send({ from: account, value: bearValue })
         .then(data => {
           setBearIndex(data.events.Assign.returnValues.bearIndex);
           setShowConfetti(true);
