@@ -1,18 +1,24 @@
-import { useWeb3React } from "@web3-react/core";
-import React from "react";
-import styled from "styled-components";
-import { useWeb3Context } from "../../Context/Web3Context";
-import { CenteredContent, Container, Button, Heading3, GetButton } from "../lib";
-import { UserRejectedRequestError } from "@web3-react/injected-connector";
-import Link from "next/link";
+import { useWeb3React } from '@web3-react/core';
+import React from 'react';
+import styled from 'styled-components';
+import { UserRejectedRequestError } from '@web3-react/injected-connector';
+import Link from 'next/link';
+import { useWeb3Context } from '../../Context/Web3Context';
+import {
+  CenteredContent,
+  Container,
+  Button,
+  Heading3,
+  GetButton,
+} from '../lib';
 
 const About = () => {
-  const { library, chainId, account, activate, error } = useWeb3React();
+  const { chainId, account, activate, error } = useWeb3React();
   const { injected } = useWeb3Context();
 
   function handleLogin() {
     activate(injected);
-    window.localStorage.setItem("isLoggedIn", true);
+    window.localStorage.setItem('isLoggedIn', true);
   }
 
   return (
@@ -29,40 +35,48 @@ const About = () => {
             <Heading3>About our series 1 bears:</Heading3>
 
             {chainId && chainId !== +process.env.NEXT_PUBLIC_CHAIN_ID && (
-              <h1 style={{ color: "tomato" }}>
-                <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b> Whoops, you're not in the BNB
-                network
+              <h1 style={{ color: 'tomato' }}>
+                <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b>
+                Whoops, you&apos;re not in the BNB network
               </h1>
             )}
             {!!error && (
-              <h1 style={{ color: "tomato" }}>
-                {error instanceof UserRejectedRequestError ? "whoops you rejected" : ""}
+              <h1 style={{ color: 'tomato' }}>
+                {error instanceof UserRejectedRequestError
+                  ? 'whoops you rejected'
+                  : ''}
               </h1>
             )}
 
             {!account && (
-              <h1 style={{ color: "tomato" }}>
-                <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b> It's seems that you're not
-                logged in
+              <h1 style={{ color: 'tomato' }}>
+                <b style={{ fontSize: 30, lineHeight: 0 }}>&#8594;</b>
+                It&apos;s seems that you&apos;re not logged in
               </h1>
             )}
             <p>
-              Despite their cute looks, these mischievous bears are on the loose in the market
-              causing chaos and downtrends. Make them yours right now. Be strong, resist, and
-              don&#39;t let them hang around. You have to teach the bears who&#39;s boss, and what
-              better way to do it than by laying your gauntlet on these collectibles. If you want to
-              share the fun, sending it to a friend is your best option. Support the financial
-              market, buy a &quot;cryptobear&quot; and change the world of crypto, one collectible
-              bear at a time. What more extraordinary way to protect our investments?
+              Despite their cute looks, these mischievous bears are on the loose
+              in the market causing chaos and downtrends. Make them yours right
+              now. Be strong, resist, and don&#39;t let them hang around. You
+              have to teach the bears who&#39;s boss, and what better way to do
+              it than by laying your gauntlet on these collectibles. If you want
+              to share the fun, sending it to a friend is your best option.
+              Support the financial market, buy a &quot;cryptobear&quot; and
+              change the world of crypto, one collectible bear at a time. What
+              more extraordinary way to protect our investments?
             </p>
             <Link href="/get-bear">
-              <a href="">
+              <a href="/get-bear">
                 <GetButton className="mt-4">Befriend a bear</GetButton>
               </a>
             </Link>
 
             {!account && (
-              <Button className="mt-1" onClick={handleLogin} style={{ zIndex: 99 }}>
+              <Button
+                className="mt-1"
+                onClick={handleLogin}
+                style={{ zIndex: 99 }}
+              >
                 login
               </Button>
             )}
@@ -166,7 +180,7 @@ const Images = styled.div`
 `;
 
 const BlackBox = styled.div`
-  background-color: ${({ theme }) => "#c1c1c1"};
+  background-color: ${({ theme }) => '#c1c1c1'};
   height: 300px;
   width: 300px;
   border-radius: 1000px;

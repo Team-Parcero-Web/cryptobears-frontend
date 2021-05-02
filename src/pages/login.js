@@ -1,12 +1,12 @@
-import React from "react";
-import Header from "../components/Header/Header";
-import styled from "styled-components";
-import { Heading2, Button, Info } from "../components/lib";
-import { useWeb3React } from "@web3-react/core";
-import { useWeb3Context } from "../Context/Web3Context";
-import { useRouter } from "next/router";
+import React from 'react';
+import { useWeb3React } from '@web3-react/core';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import Header from '../components/Header/Header';
+import { Button, Heading2, Info } from '../components/lib';
+import { useWeb3Context } from '../Context/Web3Context';
 
-const login = () => {
+const Login = () => {
   const { account, activate, error } = useWeb3React();
   const {
     injected,
@@ -15,46 +15,53 @@ const login = () => {
   const router = useRouter();
 
   function handleLogin() {
-    activate(injected).then((data) => {
-      router.push("/my-profile");
+    activate(injected).then(() => {
+      router.push('/my-profile');
     });
-    window.localStorage.setItem("isLoggedIn", true);
+    window.localStorage.setItem('isLoggedIn', true);
   }
 
   React.useEffect(() => {
-    if (account && window.localStorage.getItem("isLoggedIn") === "true") {
-      router.push("/");
+    if (account && window.localStorage.getItem('isLoggedIn') === 'true') {
+      router.push('/');
     }
-  }, [account]);
+  }, [account, router]);
 
   return (
-    <Login>
+    <LoginWrapper>
       <Header />
       <Content>
         <Heading2>Sign in with Metamask</Heading2>
-        <Button className="mt-4 w-3" onClick={handleLogin} disabled={!isMetamask}>
+        <Button
+          className="mt-4 w-3"
+          onClick={handleLogin}
+          disabled={!isMetamask}
+        >
           Sign in
         </Button>
         {error && (
-          <Info>Didn't work? Maybe you have a pending request on your metamask extension!</Info>
+          <Info>
+            Didn't work? Maybe you have a pending request on your metamask
+            extension!
+          </Info>
         )}
         {!isMetamask && (
           <Info>
-            We couldn't find the metamask extension in your browser, please install it and try
-            again!
+            We couldn't find the metamask extension in your browser, please
+            install it and try again!
           </Info>
         )}
       </Content>
-    </Login>
+    </LoginWrapper>
   );
 };
 
-const Login = styled.div`
+const LoginWrapper = styled.div`
   position: relative;
   overflow: hidden;
   min-height: 100vh;
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     display: block;
     height: 400px;
@@ -74,7 +81,7 @@ const Login = styled.div`
   }
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     display: block;
     height: 300px;
@@ -102,4 +109,4 @@ const Content = styled.div`
   justify-items: center;
 `;
 
-export default login;
+export default Login;

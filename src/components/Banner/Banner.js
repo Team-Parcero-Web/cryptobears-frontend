@@ -1,15 +1,14 @@
-import React from "react";
+import Link from 'next/link';
+import React from 'react';
+import styled from 'styled-components';
 import {
-  Container,
-  Heading,
   CenteredContent,
+  Container,
   floating,
   floating2,
-  Button,
   GetButton,
-} from "../lib";
-import styled from "styled-components";
-import Link from "next/link";
+  Heading,
+} from '../lib';
 
 const Banner = () => {
   return (
@@ -17,10 +16,10 @@ const Banner = () => {
       <Container>
         <MainContent>
           <div className="left">
-            <Heading xlarge={true}>CryptoBears.</Heading>
+            <Heading xlarge>CryptoBears.</Heading>
             <Heading>Welcome to the forest of these restless bears.</Heading>
             <Link href="/get-bear">
-              <a href="">
+              <a href="/get-bear">
                 <GetButton className="mt-4">Befriend a bear</GetButton>
               </a>
             </Link>

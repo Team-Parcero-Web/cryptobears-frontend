@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   CenteredContent,
   Card,
@@ -10,39 +10,44 @@ import {
   Button,
   Heading2,
   Info,
-} from "../lib";
-import { isEmail } from "../../utils/validations";
-import { client } from "../../api/client";
+} from '../lib';
+import { isEmail } from '../../utils/validations';
+import { client } from '../../api/client';
 
 const ContactUs = () => {
-  const [formData, setFormData] = React.useState({ fullName: "", email: "", message: "" });
-  const [error, setError] = React.useState("");
-  const [success, setSuccess] = React.useState("");
+  const [formData, setFormData] = React.useState({
+    fullName: '',
+    email: '',
+    message: '',
+  });
+  const [error, setError] = React.useState('');
+  const [success, setSuccess] = React.useState('');
   const [loading, setLoading] = React.useState(false);
 
-  const handleSendMail = (e) => {
+  const handleSendMail = e => {
     const { fullName, email, message } = formData;
-    setSuccess("");
-    setError("");
+    setSuccess('');
+    setError('');
 
     e.preventDefault();
     if (!fullName || !email || !message) {
-      setError("All fields are required");
+      setError('All fields are required');
       return;
-    } else if (!isEmail(email)) {
-      setError("You should use a valid email");
+    }
+    if (!isEmail(email)) {
+      setError('You should use a valid email');
       return;
     }
     setLoading(true);
-    client("contact/", { data: { fullName, email, message } })
-      .then((_data) => {
+    client('contact/', { data: { fullName, email, message } })
+      .then(() => {
         setLoading(false);
-        setSuccess("Message succesfully sent!");
-        setFormData({ fullName: "", email: "", message: "" });
+        setSuccess('Message succesfully sent!');
+        setFormData({ fullName: '', email: '', message: '' });
       })
-      .catch((_error) => {
+      .catch(() => {
         setLoading(false);
-        setError("Unexpected error, please try again");
+        setError('Unexpected error, please try again');
       });
   };
   return (
@@ -50,11 +55,13 @@ const ContactUs = () => {
       <Inner>
         <ContactCard>
           <Heading2>Join our Waitlist!</Heading2>
-          <form>
+          <form onSbumit={handleSendMail}>
             <FormControl>
               <Label htmlFor="fullname">Full Name</Label>
               <Input
-                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, fullName: e.target.value })
+                }
                 value={formData.fullName}
                 type="text"
                 placeholder="Full Name"
@@ -65,7 +72,9 @@ const ContactUs = () => {
             <FormControl>
               <Label htmlFor="email">Email</Label>
               <Input
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 value={formData.email}
                 type="text"
                 placeholder="name@email.com"
@@ -76,7 +85,9 @@ const ContactUs = () => {
             <FormControl>
               <Label htmlFor="message">Message</Label>
               <TextArea
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, message: e.target.value })
+                }
                 value={formData.message}
                 type="text"
                 placeholder="Your message"

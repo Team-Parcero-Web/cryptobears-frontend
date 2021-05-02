@@ -1,22 +1,37 @@
-import React from "react";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import styled from "styled-components";
-import { useWeb3Context } from "../../Context/Web3Context";
-import { useWeb3React } from "@web3-react/core";
+import React from 'react';
+import { useWeb3React } from '@web3-react/core';
+import styled from 'styled-components';
+import { useWeb3Context } from '../../Context/Web3Context';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
 
 const Layout = ({ children }) => {
-  const { activate } = useWeb3React();
-  const { injected } = useWeb3Context();
+  const { activate, chainId } = useWeb3React();
+  const { injected, setState, state } = useWeb3Context();
 
   React.useEffect(() => {
     if (
-      window.localStorage.getItem("isLoggedIn") &&
-      window.localStorage.getItem("isLoggedIn") === "true"
+      // eslint-disable-next-line operator-linebreak
+      window.localStorage.getItem('isLoggedIn') &&
+      window.localStorage.getItem('isLoggedIn') === 'true'
     ) {
       activate(injected);
     }
-  }, []);
+  }, [activate, injected]);
+
+  React.useEffect(() => {
+    if (chainId === +process.env.NEXT_PUBLIC_CHAIN_ID) {
+      state.contract.methods
+        .claimPrice()
+        .call()
+        .then(data => {
+          setState({
+            ...state,
+            value: data,
+          });
+        });
+    }
+  }, [chainId, setState]);
 
   return (
     <>

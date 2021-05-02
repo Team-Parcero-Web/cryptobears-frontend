@@ -1,17 +1,22 @@
-import React from "react";
-import { Label } from "../lib";
-import styled from "styled-components";
-import Skeleton from "react-loading-skeleton";
+import React from 'react';
+import Skeleton from 'react-loading-skeleton';
+import styled from 'styled-components';
+import { Button, Label } from '../lib';
 
-const BearCard = ({ bear, mobile }) => {
+const BearCard = ({ bear, mobile, isProfile, onSaleClick }) => {
   const [imgLoaded, setImgLoaded] = React.useState(false);
 
   const { image, index } = bear;
   return (
-    <Wrapper>
-      {!imgLoaded && <Skeleton height={mobile ? 120 : 250} width={mobile ? 100 : 220} />}
+    <Wrapper isProfile={isProfile}>
+      {!imgLoaded && (
+        <Skeleton height={mobile ? 120 : 250} width={mobile ? 100 : 220} />
+      )}
       <img src={image} alt="bear" onLoad={() => setImgLoaded(true)} />
       <Label className="mt-3">Bear number {index}</Label>
+      <Button size="small" className="mt-1" onClick={onSaleClick}>
+        Offer to sale
+      </Button>
     </Wrapper>
   );
 };
@@ -25,7 +30,8 @@ const Wrapper = styled.div`
   transition: transform 0.32s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 
   &:hover {
-    transform: scale(1.15);
+    transform: ${({ isProfile }) =>
+      isProfile ? 'scale(1.05)' : 'scale(1.15)'};
   }
   img {
     max-width: 225px;

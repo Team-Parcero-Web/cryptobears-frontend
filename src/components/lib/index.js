@@ -1,4 +1,4 @@
-import styled, { keyframes, css } from "styled-components";
+import styled, { keyframes, css } from 'styled-components';
 
 export const Container = styled.div`
   max-width: 1640px;
@@ -38,9 +38,9 @@ export const CenteredContent = styled.div`
   }
 `;
 export const Heading = styled.h1`
-  font-family: "Oswald", sans-serif, "Oswald";
-  font-size: ${({ xlarge }) => (xlarge ? "7rem" : "5rem")};
-  text-align: ${({ center }) => (center ? "center" : "left")};
+  font-family: 'Oswald', sans-serif, 'Oswald';
+  font-size: ${({ xlarge }) => (xlarge ? '7rem' : '5rem')};
+  text-align: ${({ center }) => (center ? 'center' : 'left')};
   letter-spacing: 2px;
   margin: 0;
   z-index: 2;
@@ -90,15 +90,15 @@ export const PurpleHeader = styled.h3`
 `;
 
 export const Info = styled.p`
-  font-size: ${({ size }) => (size ? `${size}rem` : "1.6rem")};
+  font-size: ${({ size }) => (size ? `${size}rem` : '1.6rem')};
   text-align: center;
   margin: 0;
 `;
 
 export const BaseButton = styled.button`
   padding: 14px 10px;
-  padding: ${({ isLoading }) => (isLoading ? "10px" : "14px 10px")};
-
+  padding: ${({ size }) => (size === 'small' ? '5px 8px' : '14px 10px')};
+  min-width: 100px;
   background-color: ${({ theme }) => theme.colors.purple};
   color: white;
   border: none;
@@ -106,7 +106,7 @@ export const BaseButton = styled.button`
   font-size: 18px;
   transition: all 0.2s ease-out;
   border-radius: 3px;
-  min-height: 50px;
+  min-height: ${({ size }) => (size === 'small' ? '20px' : '50px')};
   cursor: pointer;
 
   &:hover {
@@ -124,10 +124,11 @@ export const BaseButton = styled.button`
     transform: translateY(0px);
   }
 
-  ${(props) =>
+  ${props =>
     props.disabled &&
     css`
       background: #c1c1c1 !important;
+      border: none !important;
       &:hover {
         background: #c1c1c1 !important;
       }
@@ -138,11 +139,48 @@ export const BaseButton = styled.button`
   }
 `;
 
-export const Button = ({ children, isLoading, disabled, ...rest }) => {
+const SecondaryStyleButton = styled(BaseButton)`
+  background-color: transparent;
+  color: ${({ theme }) => theme.colors.text};
+  border: 2px solid ${({ theme }) => theme.colors.purple};
+
+  &:hover,
+  &:focus {
+    border: 2px solid ${({ theme }) => theme.colors.purple2};
+    color: ${({ theme }) => theme.colors.background};
+  }
+`;
+
+export const Button = ({
+  children,
+  isLoading,
+  disabled,
+  type = 'button',
+  ...rest
+}) => {
   return (
-    <BaseButton {...rest} isLoading={isLoading} disabled={disabled}>
+    <BaseButton {...rest} isLoading={isLoading} disabled={disabled} type={type}>
       {isLoading ? <Spinner /> : children}
     </BaseButton>
+  );
+};
+
+export const SecondaryButton = ({
+  children,
+  isLoading,
+  disabled,
+  type = 'button',
+  ...rest
+}) => {
+  return (
+    <SecondaryStyleButton
+      {...rest}
+      isLoading={isLoading}
+      disabled={disabled}
+      type={type}
+    >
+      {isLoading ? <Spinner /> : children}
+    </SecondaryStyleButton>
   );
 };
 
@@ -151,7 +189,7 @@ export const BtnLink = styled.div`
     font-weight: 700;
     font-size: 1.4rem;
     letter-spacing: 1.5px;
-    color: "black";
+    color: 'black';
     text-transform: uppercase;
   }
 `;
@@ -160,7 +198,7 @@ export const GetButton = styled(Button)`
   font-size: 2.4rem;
   width: 240px;
 
-  ${(props) =>
+  ${props =>
     props.responsive &&
     css`
       @media only screen and (max-width: 480px) {
@@ -188,7 +226,7 @@ export const FormControl = styled.div`
 
 export const Label = styled.label`
   font-size: 1.6rem;
-  font-size: ${({ size }) => (size ? `${size}rem` : "1.6rem")};
+  font-size: ${({ size }) => (size ? `${size}rem` : '1.6rem')};
   font-weight: 500;
   display: block;
 `;
@@ -280,28 +318,28 @@ export const Spinner = styled.div`
   }
 `;
 
-//Keyframes
+// Keyframes
 
 export const floating = keyframes`
-	0% {
-		transform: translatey(20px) rotate(-10deg); ;
-	}
-	50% {
-		transform: translatey(-60px) rotate(-10deg); ;
-	}
-	100% {
-		transform: translatey(20px) rotate(-10deg); ;
-	}
+0% {
+transform: translatey(20px) rotate(-10deg); ;
+}
+50% {
+transform: translatey(-60px) rotate(-10deg); ;
+}
+100% {
+transform: translatey(20px) rotate(-10deg); ;
+}
 `;
 
 export const floating2 = keyframes`
-	0% {
-		transform: translatey(10px) rotate(15deg); ;
-	}
-	50% {
-		transform: translatey(-20px) rotate(15deg); ;
-	}
-	100% {
-		transform: translatey(10px) rotate(15deg); ;
-	}
+0% {
+transform: translatey(10px) rotate(15deg); ;
+}
+50% {
+transform: translatey(-20px) rotate(15deg); ;
+}
+100% {
+transform: translatey(10px) rotate(15deg); ;
+}
 `;

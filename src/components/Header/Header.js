@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Container } from "../lib";
-import Link from "next/link";
-import styled from "styled-components";
-import { useWeb3React } from "@web3-react/core";
-import { debounce } from "../../utils/debounce";
-import Router from "next/router";
-import NProgress from "nprogress";
+import React, { useEffect, useState } from 'react';
+import { useWeb3React } from '@web3-react/core';
+import Link from 'next/link';
+import Router from 'next/router';
+import NProgress from 'nprogress';
+import styled from 'styled-components';
+import { debounce } from '../../utils/debounce';
+import { Container } from '../lib';
 
-Router.onRouteChangeStart = (url) => {
+Router.onRouteChangeStart = () => {
   NProgress.start();
   NProgress.configure({ showSpinner: false });
 };
@@ -29,9 +29,9 @@ const Header = () => {
   }, 10);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [prevScrollPos, visible, handleScroll]);
 
   return (
@@ -65,7 +65,7 @@ const Header = () => {
                 <NavButton
                   onClick={() => {
                     deactivate();
-                    window.localStorage.setItem("isLoggedIn", false);
+                    window.localStorage.setItem('isLoggedIn', false);
                   }}
                 >
                   Sign out
@@ -85,7 +85,7 @@ const Wrapper = styled.header`
   height: 80px;
   width: 100%;
   position: fixed;
-  top: ${({ visible }) => (visible ? "0" : "-80px")};
+  top: ${({ visible }) => (visible ? '0' : '-80px')};
   z-index: 10;
   transition: top 0.3s, background-color 0.5s 0.1s;
   background-color: ${({ theme }) => theme.colors.pink};
@@ -146,7 +146,7 @@ const NavButton = styled.a`
 
   &::after {
     position: absolute;
-    content: "";
+    content: '';
     display: block;
     transition: background 2.5s linear, color 0.25s linear;
     background: ${({ theme }) => theme.colors.purple};
