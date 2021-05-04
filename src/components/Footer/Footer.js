@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import Link from "next/link";
+import React from 'react';
+import styled from 'styled-components';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -19,7 +19,9 @@ const Footer = () => {
         <li>
           <Link href="/#contact">
             <FooterButton>
-              Rights <b> &#9400; </b> CRYPTOBEARS
+              Rights
+              <b> &#9400; </b>
+              CRYPTOBEARS
             </FooterButton>
           </Link>
         </li>

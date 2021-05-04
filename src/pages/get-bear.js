@@ -1,39 +1,49 @@
-import { useWeb3React } from "@web3-react/core";
-import { useRouter } from "next/router";
-import React from "react";
-import styled from "styled-components";
-import { client } from "../api/client";
-import Layout from "../components/Layout/Layout";
-import { Button, Container, Heading2, Heading3, PurpleLine, PurpleHeader } from "../components/lib";
-import { useWeb3Context } from "../Context/Web3Context";
-import Confetti from "react-confetti";
-import useWindowSize from "../hooks/useWindowSize";
+import { useWeb3React } from '@web3-react/core';
+import { useRouter } from 'next/router';
+import React from 'react';
+import Confetti from 'react-confetti';
+import styled from 'styled-components';
+import { client } from '../api/client';
+import Layout from '../components/Layout/Layout';
+import {
+  Button,
+  Container,
+  Heading2,
+  Heading3,
+  PurpleHeader,
+  PurpleLine,
+} from '../components/lib';
+import { useWeb3Context } from '../Context/Web3Context';
+import useWindowSize from '../hooks/useWindowSize';
 
 const MyProfile = () => {
-  const { account, library, chainId } = useWeb3React();
+  const { account, library, chainId, activate } = useWeb3React();
   const {
-    state: { contract, value, isMetamask },
+    injected,
+    state: { contract, bearValue, isMetamask },
   } = useWeb3Context();
 
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [showConfetti, setShowConfetti] = React.useState(false);
-  const [bearIndex, setBearIndex] = React.useState("");
-  const [bearImage, setBearImage] = React.useState("");
+  const [bearIndex, setBearIndex] = React.useState('');
+  const [bearImage, setBearImage] = React.useState('');
   const { width, height } = useWindowSize();
 
   React.useEffect(() => {
     if (
-      (!account && window.localStorage.getItem("isLoggedIn") === "false") ||
-      !window.localStorage.getItem("isLoggedIn")
+      (!account && window.localStorage.getItem('isLoggedIn') === 'false') ||
+      !window.localStorage.getItem('isLoggedIn')
     ) {
-      router.push("/login");
+      router.push('/login');
     }
-  }, [account]);
+  }, [account, router]);
 
   React.useEffect(() => {
     if (bearIndex) {
-      client(`bears/?index=${bearIndex}`).then((data) => setBearImage(data[0].image));
+      client(`bears/?index=${bearIndex}`).then(data =>
+        setBearImage(data[0].image),
+      );
     }
   }, [bearIndex]);
 
@@ -43,8 +53,8 @@ const MyProfile = () => {
       setShowConfetti(false);
       await contract.methods
         .getBear()
-        .send({ from: account, value })
-        .then((data) => {
+        .send({ from: account, value: bearValue })
+        .then(data => {
           setBearIndex(data.events.Assign.returnValues.bearIndex);
           setShowConfetti(true);
         })
@@ -57,34 +67,40 @@ const MyProfile = () => {
   }
 
   async function addBNB() {
-    await library.jsonRpcFetchFunc("wallet_addEthereumChain", [
+    await library.jsonRpcFetchFunc('wallet_addEthereumChain', [
       {
-        chainId: "0x38",
-        chainName: "Smart Chain",
+        chainId: '0x38',
+        chainName: 'Smart Chain',
         nativeCurrency: {
-          name: "Bincance",
-          symbol: "BNB",
+          name: 'Bincance',
+          symbol: 'BNB',
           decimals: 18,
         },
-        rpcUrls: ["https://bsc-dataseed.binance.org/"],
-        blockExplorerUrls: ["https://bscscan.com"],
+        rpcUrls: ['https://bsc-dataseed.binance.org/'],
+        blockExplorerUrls: ['https://bscscan.com'],
       },
     ]);
+    activate(injected);
   }
 
   return (
     <Layout>
-      {showConfetti && <Confetti width={width} height={height} numberOfPieces={120} />}
+      {showConfetti && (
+        <Confetti width={width} height={height} numberOfPieces={120} />
+      )}
       <Container>
         <Inner>
           <Heading2>Buy a bear (Series 1)</Heading2>
+
           {showConfetti && (
-            <Heading2 className="success">Congrats! you've got bear number {bearIndex} !!</Heading2>
+            <Heading2 className="success">
+              Congrats! you've got bear number {bearIndex} !!
+            </Heading2>
           )}
           <BuyGrid>
             <BuyLeft>
               <PurpleLine />
-              <BuyHeading>Bear #{bearIndex || "???"}</BuyHeading>
+              <BuyHeading>Bear #{bearIndex || '???'}</BuyHeading>
               <BearImgWrapper>
                 {!bearImage ? (
                   <img src="/images/buy-placeholder.jpeg" alt="Bear example" />
@@ -104,7 +120,11 @@ const MyProfile = () => {
                 </div>
                 <BuyButton
                   isLoading={loading}
-                  disabled={loading || !isMetamask || chainId !== +process.env.NEXT_PUBLIC_CHAIN_ID}
+                  disabled={
+                    loading ||
+                    !isMetamask ||
+                    chainId !== +process.env.NEXT_PUBLIC_CHAIN_ID
+                  }
                   onClick={getBear}
                 >
                   BUY NOW
@@ -113,7 +133,8 @@ const MyProfile = () => {
                 {account && chainId !== +process.env.NEXT_PUBLIC_CHAIN_ID && (
                   <div>
                     <p className="price-title mt-2 error">
-                      You have to be on the BNB SmartChain in order to get a Bear
+                      You have to be on the BNB SmartChain in order to get a
+                      Bear
                     </p>
                     <Button className="mt-1" onClick={() => addBNB()}>
                       Add or switch to BNB
@@ -121,11 +142,14 @@ const MyProfile = () => {
                   </div>
                 )}
                 {loading && (
-                  <p className="price-title mt-2">Hold on! your transaction is being processed</p>
+                  <p className="price-title mt-2">
+                    Hold on! your transaction is being processed
+                  </p>
                 )}
                 {(!isMetamask || !account) && (
                   <p className="price-title mt-2 error">
-                    You need metamask extension and being logged in to get a bear
+                    You need metamask extension and being logged in to get a
+                    bear
                   </p>
                 )}
               </BuyDetails>
@@ -133,15 +157,23 @@ const MyProfile = () => {
           </BuyGrid>
           <BuyDescription>
             <p>
-              The bear you are about to get is an <span>unique</span> friend that's ready to go have
-              fun with you
+              The bear you are about to get is an <span>unique</span> friend
+              that's ready to go have fun with you
             </p>
-            <img className="gold-paw paw" src="/images/paw1.png" alt="Paw coin" />
-            <img className="purple-paw paw" src="/images/paw2.png" alt="Paw coin" />
+            <img
+              className="gold-paw paw"
+              src="/images/paw1.png"
+              alt="Paw coin"
+            />
+            <img
+              className="purple-paw paw"
+              src="/images/paw2.png"
+              alt="Paw coin"
+            />
             <p>
-              Each one of our furry pals is special in their own way, some have hobbies, <br /> some
-              like dressing up, some even are royalty, but all of them want the same thing: to be
-              your friend!
+              Each one of our furry pals is special in their own way, some have
+              hobbies, <br /> some like dressing up, some even are royalty, but
+              all of them want the same thing: to be your friend!
             </p>
           </BuyDescription>
         </Inner>

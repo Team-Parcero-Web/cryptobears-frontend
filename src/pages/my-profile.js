@@ -1,13 +1,14 @@
-import React from "react";
-import Header from "../components/Header/Header";
-import { useWeb3React } from "@web3-react/core";
-import { useRouter } from "next/router";
-import { Container, Heading2, Label, Heading3 } from "../components/lib";
-import styled from "styled-components";
-import { client } from "../api/client";
-import { useWeb3Context } from "../Context/Web3Context";
-import BearCard from "../components/BearCard/BearCard";
-import Layout from "../components/Layout/Layout";
+import React from 'react';
+import { useWeb3React } from '@web3-react/core';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import { client } from '../api/client';
+import BearCard from '../components/BearCard/BearCard';
+import Layout from '../components/Layout/Layout';
+import { Container, Heading2, Heading3, Label, Info } from '../components/lib';
+import SaleModal from '../components/SaleModal/SaleModal';
+import { useWeb3Context } from '../Context/Web3Context';
+import Modal from '../components/Modal/Modal';
 
 const MyProfile = () => {
   const { account, activate } = useWeb3React();
@@ -15,34 +16,56 @@ const MyProfile = () => {
   const router = useRouter();
   const [myBears, setMyBears] = React.useState([]);
   const [bears, setBears] = React.useState([]);
+  const [showSaleModal, setShowSaleModal] = React.useState(false);
+  const [showSuccessModal, setShowSuccessModal] = React.useState(false);
+  const [activeSaleBear, setActiveSaleBear] = React.useState({});
 
   React.useEffect(() => {
-    if (!account && window.localStorage.getItem("isLoggedIn") === "false") {
-      router.push("/login");
+    if (!account && window.localStorage.getItem('isLoggedIn') === 'false') {
+      router.push('/login');
     }
-  }, [account]);
+  }, [account, router]);
 
   React.useEffect(() => {
     if (!account) {
       return;
     }
 
-    client(`bears/?owner=${account}`).then((data) => {
+    client(`bears/?owner=${account}`).then(data => {
       setBears(data);
       setMyBears(data);
     });
   }, [account]);
 
   React.useEffect(() => {
-    if (window.localStorage.getItem("isLoggedIn") === "true") {
+    if (window.localStorage.getItem('isLoggedIn') === 'true') {
       activate(injected);
     }
-  }, []);
+  }, [activate, injected]);
 
   return (
     <Layout>
       <Container className="container">
         <Inner>
+          <SaleModal
+            show={showSaleModal}
+            setShow={setShowSaleModal}
+            bear={activeSaleBear}
+            onSuccess={() => {
+              setShowSaleModal(false);
+              setShowSuccessModal(true);
+            }}
+          />
+          <Modal
+            showModal={showSuccessModal}
+            setShowModal={setShowSuccessModal}
+          >
+            <Heading3>Success!</Heading3>
+            <Info size="2" className="mt-2">
+              Bear # {activeSaleBear.index} succesfully offered to sale
+            </Info>
+          </Modal>
+
           <Heading2>My Profile</Heading2>
           <Heading3 className="account">{account}</Heading3>
           <ProfileGrid>
@@ -57,8 +80,16 @@ const MyProfile = () => {
           </ProfileGrid>
           <Heading3 className="mt-4">Your Bears:</Heading3>
           <BearsGrid>
-            {myBears.map((bear) => (
-              <BearCard bear={bear} key={bear.index} />
+            {myBears.map(bear => (
+              <BearCard
+                bear={bear}
+                key={bear.index}
+                isProfile
+                onSaleClick={() => {
+                  setActiveSaleBear(bear);
+                  setShowSaleModal(true);
+                }}
+              />
             ))}
           </BearsGrid>
         </Inner>
