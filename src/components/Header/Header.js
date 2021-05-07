@@ -6,6 +6,7 @@ import NProgress from 'nprogress';
 import styled from 'styled-components';
 import { debounce } from '../../utils/debounce';
 import { Container } from '../lib';
+import { useWeb3Context } from '../../Context/Web3Context';
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -17,6 +18,7 @@ Router.onRouterChangeError = () => NProgress.done();
 
 const Header = () => {
   const { account, deactivate } = useWeb3React();
+  const { setState } = useWeb3Context();
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -65,7 +67,7 @@ const Header = () => {
                 <NavButton
                   onClick={() => {
                     deactivate();
-                    window.localStorage.setItem('isLoggedIn', false);
+                    setState({ isLoggedIn: false });
                   }}
                 >
                   Sign out

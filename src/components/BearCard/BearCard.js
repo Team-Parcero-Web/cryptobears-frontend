@@ -12,11 +12,18 @@ const BearCard = ({ bear, mobile, isProfile, onSaleClick }) => {
       {!imgLoaded && (
         <Skeleton height={mobile ? 120 : 250} width={mobile ? 100 : 220} />
       )}
-      <img src={image} alt="bear" onLoad={() => setImgLoaded(true)} />
+      <img
+        src={image}
+        alt="bear"
+        onLoad={() => setImgLoaded(true)}
+        className={imgLoaded ? 'show-image' : 'hidden-image'}
+      />
       <Label className="mt-3">Bear number {index}</Label>
-      <Button size="small" className="mt-1" onClick={onSaleClick}>
-        Offer to sale
-      </Button>
+      {isProfile && (
+        <Button size="small" className="mt-1" onClick={onSaleClick}>
+          Offer to sale
+        </Button>
+      )}
     </Wrapper>
   );
 };
@@ -28,6 +35,13 @@ const Wrapper = styled.div`
   padding: 2rem;
   border-radius: 10px;
   transition: transform 0.32s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+  .hidden-image {
+    display: none;
+  }
+  .show-image {
+    display: block;
+  }
 
   &:hover {
     transform: ${({ isProfile }) =>

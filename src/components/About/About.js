@@ -18,7 +18,6 @@ const About = () => {
 
   function handleLogin() {
     activate(injected);
-    window.localStorage.setItem('isLoggedIn', true);
   }
 
   return (

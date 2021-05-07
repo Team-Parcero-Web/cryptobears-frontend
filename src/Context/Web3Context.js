@@ -1,18 +1,23 @@
 import React, { createContext, useContext } from 'react';
-import Contract from 'web3-eth-contract';
 import { InjectedConnector } from '@web3-react/injected-connector';
+import { useCookies } from 'react-cookie';
+import Contract from 'web3-eth-contract';
 import { bearsABI } from '../contracts/bears';
 
 const Web3Context = createContext();
 
 export const GlobalProvider = ({ children }) => {
+  const [cookie, setCookie] = useCookies(['isLoggedIn']);
+
   const injected = new InjectedConnector({
     supportedChainIds: [1, 3, 4, 5, 42, 56, 97],
   });
+
   const [state, setState] = React.useState({
     contract: null,
     isMetamask: true,
     bearValue: 0,
+    isLoggedIn: Boolean(cookie.isLoggedIn) || false,
   });
 
   React.useEffect(() => {
@@ -27,6 +32,14 @@ export const GlobalProvider = ({ children }) => {
       ),
     });
   }, []);
+
+  React.useEffect(() => {
+    setCookie('isLoggedIn', JSON.stringify(state.isLoggedIn), {
+      path: '/',
+      maxAge: 28800, // Expires after 1hr
+      sameSite: true,
+    });
+  }, [setCookie, state.isLoggedIn]);
 
   const changeState = React.useCallback(
     statePortion => {

@@ -10,22 +10,24 @@ const Login = () => {
   const { account, activate, error } = useWeb3React();
   const {
     injected,
-    state: { isMetamask },
+    state: { isMetamask, isLoggedIn },
+    setState,
   } = useWeb3Context();
   const router = useRouter();
 
   function handleLogin() {
     activate(injected).then(() => {
-      router.push('/my-profile');
+      if (!error) {
+        setState({ isLoggedIn: true });
+      }
     });
-    window.localStorage.setItem('isLoggedIn', true);
   }
 
   React.useEffect(() => {
-    if (account && window.localStorage.getItem('isLoggedIn') === 'true') {
+    if (isLoggedIn) {
       router.push('/');
     }
-  }, [account, router]);
+  }, [account, isLoggedIn, router]);
 
   return (
     <LoginWrapper>

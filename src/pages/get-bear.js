@@ -12,15 +12,18 @@ import {
   Heading3,
   PurpleHeader,
   PurpleLine,
+  Spinner,
 } from '../components/lib';
 import { useWeb3Context } from '../Context/Web3Context';
 import useWindowSize from '../hooks/useWindowSize';
+import addBNB from '../utils/addBNB';
+import Modal from '../components/Modal/Modal';
 
 const MyProfile = () => {
   const { account, library, chainId, activate } = useWeb3React();
   const {
     injected,
-    state: { contract, bearValue, isMetamask },
+    state: { contract, bearValue, isMetamask, isLoggedIn },
   } = useWeb3Context();
 
   const router = useRouter();
@@ -31,13 +34,10 @@ const MyProfile = () => {
   const { width, height } = useWindowSize();
 
   React.useEffect(() => {
-    if (
-      (!account && window.localStorage.getItem('isLoggedIn') === 'false') ||
-      !window.localStorage.getItem('isLoggedIn')
-    ) {
+    if (!isLoggedIn) {
       router.push('/login');
     }
-  }, [account, router]);
+  }, [account, isLoggedIn, router]);
 
   React.useEffect(() => {
     if (bearIndex) {
@@ -53,7 +53,7 @@ const MyProfile = () => {
       setShowConfetti(false);
       await contract.methods
         .getBear()
-        .send({ from: account, value: bearValue })
+        .send({ from: account, value: 10 })
         .then(data => {
           setBearIndex(data.events.Assign.returnValues.bearIndex);
           setShowConfetti(true);
@@ -66,27 +66,23 @@ const MyProfile = () => {
     }
   }
 
-  async function addBNB() {
-    await library.jsonRpcFetchFunc('wallet_addEthereumChain', [
-      {
-        chainId: '0x38',
-        chainName: 'Smart Chain',
-        nativeCurrency: {
-          name: 'Bincance',
-          symbol: 'BNB',
-          decimals: 18,
-        },
-        rpcUrls: ['https://bsc-dataseed.binance.org/'],
-        blockExplorerUrls: ['https://bscscan.com'],
-      },
-    ]);
-    activate(injected);
-  }
-
   return (
     <Layout>
       {showConfetti && (
         <Confetti width={width} height={height} numberOfPieces={120} />
+      )}
+      {loading && (
+        <Modal
+          showModal={loading}
+          setShowModal={setLoading}
+          modalClassName="p-30"
+        >
+          <Heading3 className="mb-3">
+            {' '}
+            Hold on! your transaction is being processed
+          </Heading3>
+          <Spinner />
+        </Modal>
       )}
       <Container>
         <Inner>
@@ -136,7 +132,10 @@ const MyProfile = () => {
                       You have to be on the BNB SmartChain in order to get a
                       Bear
                     </p>
-                    <Button className="mt-1" onClick={() => addBNB()}>
+                    <Button
+                      className="mt-1"
+                      onClick={async () => addBNB(library, activate, injected)}
+                    >
                       Add or switch to BNB
                     </Button>
                   </div>

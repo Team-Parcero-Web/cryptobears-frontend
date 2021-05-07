@@ -12,7 +12,10 @@ import Modal from '../components/Modal/Modal';
 
 const MyProfile = () => {
   const { account, activate } = useWeb3React();
-  const { injected } = useWeb3Context();
+  const {
+    injected,
+    state: { isLoggedIn },
+  } = useWeb3Context();
   const router = useRouter();
   const [myBears, setMyBears] = React.useState([]);
   const [bears, setBears] = React.useState([]);
@@ -21,10 +24,10 @@ const MyProfile = () => {
   const [activeSaleBear, setActiveSaleBear] = React.useState({});
 
   React.useEffect(() => {
-    if (!account && window.localStorage.getItem('isLoggedIn') === 'false') {
+    if (!isLoggedIn) {
       router.push('/login');
     }
-  }, [account, router]);
+  }, [account, isLoggedIn, router]);
 
   React.useEffect(() => {
     if (!account) {
@@ -38,10 +41,10 @@ const MyProfile = () => {
   }, [account]);
 
   React.useEffect(() => {
-    if (window.localStorage.getItem('isLoggedIn') === 'true') {
+    if (isLoggedIn) {
       activate(injected);
     }
-  }, [activate, injected]);
+  }, [activate, injected, isLoggedIn]);
 
   return (
     <Layout>

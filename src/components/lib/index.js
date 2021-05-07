@@ -107,6 +107,7 @@ export const BaseButton = styled.button`
   transition: all 0.2s ease-out;
   border-radius: 3px;
   min-height: ${({ size }) => (size === 'small' ? '20px' : '50px')};
+  height: ${({ size }) => (size === 'small' ? '35px' : 'auto')};
   cursor: pointer;
 
   &:hover {

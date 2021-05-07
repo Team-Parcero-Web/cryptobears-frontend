@@ -10,18 +10,14 @@ const Layout = ({ children }) => {
   const {
     injected,
     setState,
-    state: { contract },
+    state: { contract, isLoggedIn },
   } = useWeb3Context();
 
   React.useEffect(() => {
-    if (
-      // eslint-disable-next-line operator-linebreak
-      window.localStorage.getItem('isLoggedIn') &&
-      window.localStorage.getItem('isLoggedIn') === 'true'
-    ) {
+    if (isLoggedIn) {
       activate(injected);
     }
-  }, [activate, injected]);
+  }, [activate, injected, isLoggedIn]);
 
   React.useEffect(() => {
     if (chainId === +process.env.NEXT_PUBLIC_CHAIN_ID && contract) {

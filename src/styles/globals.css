@@ -73,6 +73,10 @@ a {
 
 /* Utils */
 
+.p-30 {
+  padding: 43px !important;
+}
+
 .m-1 {
   margin: 1rem;
 }
@@ -95,10 +99,13 @@ a {
 }
 
 .mb-1 {
-  margin-bottom: 1rem;
+  margin-bottom: 1rem !important;
 }
 .mb-2 {
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.4rem !important;
+}
+.mb-3 {
+  margin-bottom: 2rem !important;
 }
 .mb-4 {
   margin-bottom: 3rem !important;
@@ -111,8 +118,15 @@ a {
   width: 150px;
 }
 
+.text-1 {
+  font-size: 1.2rem !important;
+}
+
 .text-2 {
-  font-size: 1.6rem;
+  font-size: 1.6rem !important;
+}
+.text-3 {
+  font-size: 2rem !important;
 }
 
 .bold {

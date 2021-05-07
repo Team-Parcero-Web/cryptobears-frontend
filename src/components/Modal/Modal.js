@@ -12,7 +12,7 @@ const modalVariants = {
   visible: { y: '0' },
 };
 
-const Modal = ({ showModal, setShowModal, children }) => {
+const Modal = ({ showModal, setShowModal, children, modalClassName }) => {
   return (
     <AnimatePresence exitBeforeEnter>
       {showModal && (
@@ -34,6 +34,7 @@ const Modal = ({ showModal, setShowModal, children }) => {
             initial="hidden"
             animate="visible"
             exit="hidden"
+            className={modalClassName}
           >
             {children}
           </ModalWrapper>
@@ -59,6 +60,7 @@ const ModalWrapper = styled(motion.div)`
   background-color: white;
   padding: 2rem;
   border-radius: 10px;
+  max-width: 90vw;
 `;
 
 export default Modal;
