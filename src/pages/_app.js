@@ -1,14 +1,14 @@
-import "../styles/globals.css";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { theme } from "../styles/theme";
-import { Web3ReactProvider } from "@web3-react/core";
-import { Web3Provider } from "@ethersproject/providers";
-import { GlobalProvider } from "../Context/Web3Context";
-import { AnimatePresence } from "framer-motion";
-import { motion } from "framer-motion";
+import '../styles/globals.css';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { theme } from '../styles/theme';
+import { Web3ReactProvider } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
+import { GlobalProvider } from '../Context/Web3Context';
+import { AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-import Head from "next/head";
-import "nprogress/nprogress.css";
+import Head from 'next/head';
+import 'nprogress/nprogress.css';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -31,9 +31,9 @@ export default function App({ Component, pageProps, router }) {
         <title>CryptoBears | Home</title>
       </Head>
       <GlobalStyle />
-      <GlobalProvider>
-        <ThemeProvider theme={theme}>
-          <Web3ReactProvider getLibrary={getLibrary}>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <GlobalProvider>
+          <ThemeProvider theme={theme}>
             <AnimatePresence initial={false} exitBeforeEnter>
               <motion.div
                 variants={{
@@ -55,9 +55,9 @@ export default function App({ Component, pageProps, router }) {
                 <Component {...pageProps} />
               </motion.div>
             </AnimatePresence>
-          </Web3ReactProvider>
-        </ThemeProvider>
-      </GlobalProvider>
+          </ThemeProvider>
+        </GlobalProvider>
+      </Web3ReactProvider>
     </>
   );
 }

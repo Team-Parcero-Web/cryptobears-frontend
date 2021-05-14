@@ -11,14 +11,14 @@ const Login = () => {
   const {
     injected,
     state: { isMetamask, isLoggedIn },
-    setState,
+    dispatch,
   } = useWeb3Context();
   const router = useRouter();
 
   function handleLogin() {
     activate(injected).then(() => {
       if (!error) {
-        setState({ isLoggedIn: true });
+        dispatch({ type: 'login' });
       }
     });
   }

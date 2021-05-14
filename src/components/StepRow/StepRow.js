@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { Heading2 } from "../lib";
+import React from 'react';
+import styled from 'styled-components';
+import { Heading2 } from '../lib';
 
 const StepRow = ({ step, textPosition }) => {
   const { stepText, image, id } = step;
@@ -8,7 +8,7 @@ const StepRow = ({ step, textPosition }) => {
     <Step textPosition={textPosition}>
       <Small textPosition={textPosition}>
         <div className="smallimg">
-          <img src={image} alt="step image" />
+          <img src={image} alt="step " />
         </div>
       </Small>
       <Large textPosition={textPosition}>
@@ -25,7 +25,7 @@ const Step = styled.div`
   margin: 0 auto;
   display: grid;
   grid-template-columns: ${({ textPosition }) =>
-    textPosition === "left" ? "1fr 0.3fr" : "0.3fr 1fr"};
+    textPosition === 'left' ? '1fr 0.3fr' : '0.3fr 1fr'};
   grid-gap: 10rem;
   padding: 2rem 0;
   border-bottom: 2px solid #c1c1c1;
@@ -41,7 +41,7 @@ const Step = styled.div`
 `;
 
 const Small = styled.div`
-  order: ${({ textPosition }) => (textPosition === "left" ? 2 : 1)};
+  order: ${({ textPosition }) => (textPosition === 'left' ? 2 : 1)};
   @media (max-width: 768px) {
     order: 2;
   }
@@ -67,10 +67,11 @@ const Small = styled.div`
     display: block;
     position: absolute;
     top: 20px;
-    left: ${({ textPosition }) => (textPosition === "left" ? "-30px" : " 30px")};
+    left: ${({ textPosition }) =>
+      textPosition === 'left' ? '-30px' : ' 30px'};
     width: 100%;
     height: 100%;
-    content: "";
+    content: '';
     z-index: -1;
     border: ${({ theme }) => `3px solid ${theme.colors.purple}`};
     border-radius: 5px;
@@ -82,7 +83,8 @@ const Small = styled.div`
   }
   .smallimg:hover::after {
     top: 10px;
-    left: ${({ textPosition }) => (textPosition === "left" ? "-10px" : " 10px")};
+    left: ${({ textPosition }) =>
+      textPosition === 'left' ? '-10px' : ' 10px'};
 
     @media (max-width: 768px) {
       left: 10px;
@@ -91,8 +93,9 @@ const Small = styled.div`
 `;
 
 const Large = styled.div`
-  order: ${({ textPosition }) => (textPosition === "left" ? 1 : 2)};
-  text-align: ${({ textPosition }) => (textPosition === "left" ? "left" : "right")};
+  order: ${({ textPosition }) => (textPosition === 'left' ? 1 : 2)};
+  text-align: ${({ textPosition }) =>
+    textPosition === 'left' ? 'left' : 'right'};
   @media (max-width: 768px) {
     text-align: center;
     order: 1;

@@ -38,14 +38,15 @@ export const CenteredContent = styled.div`
   }
 `;
 export const Heading = styled.h1`
-  font-family: 'Oswald', sans-serif, 'Oswald';
+  font-family: 'Poppins', sans-serif;
   font-size: ${({ xlarge }) => (xlarge ? '7rem' : '5rem')};
-  text-align: ${({ center }) => (center ? 'center' : 'left')};
+  text-align: ${({ center }) => (center ? 'center' : '')};
   letter-spacing: 2px;
   margin: 0;
   z-index: 2;
   font-weight: 500;
   line-height: 1.2;
+  letter-spacing: -1px;
   word-wrap: break-word;
   @media (max-width: 768px) {
     font-size: 4rem;
@@ -54,8 +55,9 @@ export const Heading = styled.h1`
 `;
 
 export const Heading2 = styled(Heading)`
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
   font-size: 4rem;
-  letter-spacing: 1px;
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -63,8 +65,10 @@ export const Heading2 = styled(Heading)`
 `;
 
 export const Heading3 = styled(Heading)`
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
   font-size: 3rem;
-  letter-spacing: 1px;
+  letter-spacing: 0px;
 
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -72,6 +76,8 @@ export const Heading3 = styled(Heading)`
 `;
 
 export const Heading4 = styled(Heading)`
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
   font-size: 2.4rem;
   letter-spacing: 1px;
 
@@ -97,12 +103,12 @@ export const Info = styled.p`
 
 export const BaseButton = styled.button`
   padding: 14px 10px;
-  padding: ${({ size }) => (size === 'small' ? '5px 8px' : '14px 10px')};
+  padding: ${({ size }) => (size === 'small' ? '2px 8px' : '14px 10px')};
   min-width: 100px;
   background-color: ${({ theme }) => theme.colors.purple};
   color: white;
   border: none;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 18px;
   transition: all 0.2s ease-out;
   border-radius: 3px;

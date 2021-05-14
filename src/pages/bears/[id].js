@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import Skeleton from 'react-loading-skeleton';
 import styled from 'styled-components';
 import { client } from '../../api/client';
-import BidModal from '../../components/BidModal/BidModal';
 import Layout from '../../components/Layout/Layout';
 import {
   Button,
@@ -13,12 +12,21 @@ import {
   GreyLine,
   Heading3,
   Heading4,
+  Info,
   Label,
   PurpleLine,
   SecondaryButton,
 } from '../../components/lib';
-import Modal from '../../components/Modal/Modal';
+import BidModal from '../../components/modals/BidModal/BidModal';
+import Modal from '../../components/modals/Modal/Modal';
+import QuitSaleModal from '../../components/modals/QuitSaleModal/QuitSaleModal';
+import SaleModal from '../../components/modals/SaleModal/SaleModal';
 import { useWeb3Context } from '../../Context/Web3Context';
+import {
+  checkBearBidStatus,
+  checkBearSaleStatus,
+  getBearOwner,
+} from '../../hooks/contractActions';
 import addBNB from '../../utils/addBNB';
 
 const BearDetail = () => {
@@ -26,11 +34,11 @@ const BearDetail = () => {
   const { id } = router.query;
   const [bear, setBear] = React.useState();
   const [owner, setOwner] = React.useState('');
-  const [bearSales, setBearStales] = React.useState({});
+  const [bearSales, setBearSales] = React.useState({});
   const [bearBids, setBearBids] = React.useState({});
-  const [showBidModal, setShowBidModal] = React.useState(false);
+  const [activeModal, setActiveModal] = React.useState('');
 
-  const { library, chainId, activate } = useWeb3React();
+  const { library, chainId, activate, account } = useWeb3React();
   const {
     injected,
     state: { contract },
@@ -39,23 +47,13 @@ const BearDetail = () => {
   React.useEffect(() => {
     if (id && chainId === +process.env.NEXT_PUBLIC_CHAIN_ID) {
       client(`bears/?index=${id}`).then(data => setBear(data[0]));
-
-      contract?.methods
-        .bearBids(id)
-        .call()
-        .then(data => setBearBids(data));
-
-      contract?.methods
-        .bearsOfferedForSale(id)
-        .call()
-        .then(data => setBearStales(data));
-
-      contract?.methods
-        .bearIndexToAddress(id)
-        .call()
-        .then(data => setOwner(data));
+      checkBearBidStatus(id, contract).then(setBearBids);
+      checkBearSaleStatus(id, contract).then(setBearSales);
+      getBearOwner(id, contract).then(setOwner);
     }
   }, [id, contract, chainId]);
+
+  const closeModal = () => setActiveModal('');
 
   return (
     <Layout>
@@ -82,7 +80,41 @@ const BearDetail = () => {
         </div>
       </Modal>
 
-      <BidModal show={showBidModal} setShow={setShowBidModal} bear={bear} />
+      <SaleModal
+        show={activeModal === 'sale'}
+        handleCloseModal={closeModal}
+        bear={bear}
+        onSuccess={() => {
+          setActiveModal('success');
+          checkBearSaleStatus(id, contract).then(setBearSales);
+        }}
+      />
+      <Modal
+        showModal={activeModal === 'success'}
+        handleCloseModal={closeModal}
+      >
+        <Heading3>Success!</Heading3>
+        <Info size="2" className="mt-2">
+          Bear # {bear?.index} succesfully offered to sale
+        </Info>
+      </Modal>
+
+      <QuitSaleModal
+        show={activeModal === 'quitSale'}
+        handleCloseModal={closeModal}
+        bear={bear}
+        contract={contract}
+        account={account}
+        onSuccess={async () => {
+          checkBearSaleStatus(id, contract).then(setBearSales);
+        }}
+      />
+
+      <BidModal
+        show={activeModal === 'bid'}
+        handleCloseModal={closeModal}
+        bear={bear}
+      />
 
       <Container>
         <Inner>
@@ -124,19 +156,52 @@ const BearDetail = () => {
                 <Label className="mt-5 bold">Highest bid:</Label>
                 <p className="text-2">
                   {bearBids.value ? (
-                    +bearBids.value / 1000000000000000000
+                    `${+bearBids.value / 1000000000000000000} BNB`
                   ) : (
                     <Skeleton width={100} />
                   )}
                 </p>
-                {bearSales.isForSale && (
+                {bearSales.isForSale && owner !== account && (
                   <Button
                     className="mt-3"
                     onClick={() => {
-                      setShowBidModal(true);
+                      setActiveModal('bid');
                     }}
                   >
                     Place bid
+                  </Button>
+                )}
+
+                {!bearSales.isForSale && owner === account && (
+                  <Button
+                    className="mt-3 mr-3"
+                    onClick={() => {
+                      setActiveModal('sale');
+                    }}
+                  >
+                    Offer to sale
+                  </Button>
+                )}
+
+                {bearSales.isForSale && owner === account && (
+                  <Button
+                    className="mt-3 mr-3"
+                    onClick={() => {
+                      setActiveModal('quitSale');
+                    }}
+                  >
+                    Quit for sale
+                  </Button>
+                )}
+
+                {bearBids.hasBid && owner === account && (
+                  <Button
+                    className="mt-3"
+                    onClick={() => {
+                      setActiveModal('quitSale');
+                    }}
+                  >
+                    Accept bid
                   </Button>
                 )}
               </div>

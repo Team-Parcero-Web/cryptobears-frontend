@@ -6,6 +6,26 @@ import { bearsABI } from '../contracts/bears';
 
 const Web3Context = createContext();
 
+function globalReducer(state, action) {
+  switch (action.type) {
+    case 'login': {
+      return { ...state, isLoggedIn: true };
+    }
+    case 'logout': {
+      return { ...state, isLoggedIn: false };
+    }
+    case 'setContract': {
+      return { ...state, contract: action.payload };
+    }
+    case 'setBearPrice': {
+      return { ...state, bearPrice: action.payload };
+    }
+    default: {
+      throw new Error(`Unhandled action type: ${action.type}`);
+    }
+  }
+}
+
 export const GlobalProvider = ({ children }) => {
   const [cookie, setCookie] = useCookies(['isLoggedIn']);
 
@@ -13,24 +33,20 @@ export const GlobalProvider = ({ children }) => {
     supportedChainIds: [1, 3, 4, 5, 42, 56, 97],
   });
 
-  const [state, setState] = React.useState({
+  const [state, dispatch] = React.useReducer(globalReducer, {
     contract: null,
     isMetamask: true,
-    bearValue: 0,
+    bearPrice: 0,
     isLoggedIn: Boolean(cookie.isLoggedIn) || false,
   });
 
   React.useEffect(() => {
     Contract.setProvider(window.web3?.currentProvider);
-
-    setState({
-      ...state,
-      isMetamask: !!window.web3,
-      contract: new Contract(
-        bearsABI,
-        process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-      ),
-    });
+    const firstContract = new Contract(
+      bearsABI,
+      process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+    );
+    dispatch({ type: 'setContract', payload: firstContract });
   }, []);
 
   React.useEffect(() => {
@@ -41,14 +57,7 @@ export const GlobalProvider = ({ children }) => {
     });
   }, [setCookie, state.isLoggedIn]);
 
-  const changeState = React.useCallback(
-    statePortion => {
-      setState({ ...state, ...statePortion });
-    },
-    [state.contract],
-  );
-
-  const customInitState = { injected, state, setState: changeState };
+  const customInitState = { injected, state, dispatch };
 
   return (
     <Web3Context.Provider value={customInitState}>

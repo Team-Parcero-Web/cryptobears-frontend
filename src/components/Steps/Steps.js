@@ -1,17 +1,21 @@
-import React from "react";
-import { CenteredContent, Heading, GetButton } from "../lib";
-import styled from "styled-components";
-import StepRow from "../StepRow/StepRow";
-import steps from "../../data/steps";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
+import styled from 'styled-components';
+import steps from '../../data/steps';
+import { CenteredContent, GetButton, Heading } from '../lib';
+import StepRow from '../StepRow/StepRow';
 
 const Steps = () => {
   return (
     <CenteredContent>
       <StepsGrid>
         <Heading>How to get a bear?</Heading>
-        {steps.map((step) => (
-          <StepRow step={step} textPosition={step.id % 2 == 0 ? "right" : "left"} key={step.id} />
+        {steps.map(step => (
+          <StepRow
+            step={step}
+            textPosition={step.id % 2 === 0 ? 'right' : 'left'}
+            key={step.id}
+          />
         ))}
         <Link href="/get-bear">
           <a href="">

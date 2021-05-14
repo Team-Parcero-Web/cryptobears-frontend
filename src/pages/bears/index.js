@@ -20,7 +20,7 @@ const Bears = () => {
 
   React.useEffect(() => {
     client('bears/').then(data => {
-      setBears(data);
+      setBears(data.slice(0, 10));
     });
   }, []);
 

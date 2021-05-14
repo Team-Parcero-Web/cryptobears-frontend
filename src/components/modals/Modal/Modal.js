@@ -12,7 +12,7 @@ const modalVariants = {
   visible: { y: '0' },
 };
 
-const Modal = ({ showModal, setShowModal, children, modalClassName }) => {
+const Modal = ({ showModal, handleCloseModal, children, modalClassName }) => {
   return (
     <AnimatePresence exitBeforeEnter>
       {showModal && (
@@ -25,7 +25,7 @@ const Modal = ({ showModal, setShowModal, children, modalClassName }) => {
           role="dialog"
           onClick={e => {
             if (e.target.getAttribute('aria-label') === 'modal-backdrop') {
-              setShowModal(false);
+              handleCloseModal();
             }
           }}
         >

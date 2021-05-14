@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
   const { activate, chainId } = useWeb3React();
   const {
     injected,
-    setState,
+    dispatch,
     state: { contract, isLoggedIn },
   } = useWeb3Context();
 
@@ -25,10 +25,10 @@ const Layout = ({ children }) => {
         .claimPrice()
         .call()
         .then(data => {
-          setState({ bearValue: data });
+          dispatch({ type: 'setBearPrice', payload: data });
         });
     }
-  }, [chainId, contract, setState]);
+  }, [chainId, contract, dispatch]);
 
   return (
     <>

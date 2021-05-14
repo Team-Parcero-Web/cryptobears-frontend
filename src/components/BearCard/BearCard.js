@@ -1,9 +1,9 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import styled from 'styled-components';
-import { Button, Label } from '../lib';
+import { Label } from '../lib';
 
-const BearCard = ({ bear, mobile, isProfile, onSaleClick }) => {
+const BearCard = ({ bear, mobile, isProfile }) => {
   const [imgLoaded, setImgLoaded] = React.useState(false);
 
   const { image, index } = bear;
@@ -19,11 +19,6 @@ const BearCard = ({ bear, mobile, isProfile, onSaleClick }) => {
         className={imgLoaded ? 'show-image' : 'hidden-image'}
       />
       <Label className="mt-3">Bear number {index}</Label>
-      {isProfile && (
-        <Button size="small" className="mt-1" onClick={onSaleClick}>
-          Offer to sale
-        </Button>
-      )}
     </Wrapper>
   );
 };

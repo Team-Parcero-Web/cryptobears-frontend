@@ -1,7 +1,7 @@
 import React from 'react';
 import { useWeb3React } from '@web3-react/core';
 import styled from 'styled-components';
-import { useWeb3Context } from '../../Context/Web3Context';
+import { useWeb3Context } from '../../../Context/Web3Context';
 import {
   Button,
   FormControl,
@@ -10,10 +10,10 @@ import {
   Label,
   SecondaryButton,
   Info,
-} from '../lib';
+} from '../../lib';
 import Modal from '../Modal/Modal';
 
-const SaleModal = ({ show, setShow, bear, onSuccess }) => {
+const BidModal = ({ show, handleCloseModal, bear, onSuccess }) => {
   const { account } = useWeb3React();
   const {
     state: { contract },
@@ -36,8 +36,8 @@ const SaleModal = ({ show, setShow, bear, onSuccess }) => {
     try {
       setLoading(true);
       await contract.methods
-        .offerBearForSale(+bear.index, +price)
-        .send({ from: account })
+        .enterBidForBear(+bear.index)
+        .send({ from: account, value: price * 1000000000000000000 })
         .then(() => {
           onSuccess();
         })
@@ -51,13 +51,11 @@ const SaleModal = ({ show, setShow, bear, onSuccess }) => {
   };
 
   return (
-    <Modal showModal={show} setShowModal={setShow}>
-      <Heading4>Offer bear #{bear.index}</Heading4>
+    <Modal showModal={show} handleCloseModal={handleCloseModal}>
+      <Heading4>Place a bid top bear #{bear?.index}</Heading4>
       <form onSubmit={handleOfferForSale}>
         <FormControl>
-          <Label htmlFor="min-price">
-            What&apos;s the min price yo would like to sell this bear? (in BNB)
-          </Label>
+          <Label htmlFor="min-price">Insert the value of your bid in BNB</Label>
           <Input
             value={price}
             onChange={e => setPrice(e.target.value)}
@@ -65,6 +63,7 @@ const SaleModal = ({ show, setShow, bear, onSuccess }) => {
             placeholder="Price in BNB"
             name="min-price"
             id="min-price"
+            autoComplete="off"
           />
         </FormControl>
         {error && (
@@ -76,7 +75,8 @@ const SaleModal = ({ show, setShow, bear, onSuccess }) => {
           <Button
             size="small"
             className="mt-2 mr-1"
-            onClick={() => setShow(false)}
+            disabled={loading}
+            onClick={handleCloseModal}
           >
             Cancel
           </Button>
@@ -87,7 +87,7 @@ const SaleModal = ({ show, setShow, bear, onSuccess }) => {
             disabled={loading}
             type="submit"
           >
-            Offer
+            Place bid for bear # {bear?.index}
           </SecondaryButton>
         </Actions>
       </form>
@@ -100,4 +100,4 @@ const Actions = styled.div`
   justify-content: flex-end;
 `;
 
-export default SaleModal;
+export default BidModal;

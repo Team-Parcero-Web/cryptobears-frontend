@@ -1,19 +1,20 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const Greetings = () => {
   return (
     <Scrolling>
-      willkommen • Welcome • Bienvenido • 欢迎光临 • Benvenuto • Bem-vindo • добро пожаловать •
-      ようこそ
+      willkommen • Welcome • Bienvenido • 欢迎光临 • Benvenuto • Bem-vindo •
+      добро пожаловать • ようこそ
     </Scrolling>
   );
 };
 
 const Scrolling = styled.div`
-  text-transform: uppercase;
+  text-transform: capitalize;
   position: absolute;
   font-size: 3rem;
+  font-weight: 500;
   max-width: 1800px;
   width: 100%;
   text-align: center;

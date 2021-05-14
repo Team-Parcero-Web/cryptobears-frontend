@@ -1,27 +1,33 @@
 import React from 'react';
 import { useWeb3React } from '@web3-react/core';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { client } from '../api/client';
 import BearCard from '../components/BearCard/BearCard';
 import Layout from '../components/Layout/Layout';
-import { Container, Heading2, Heading3, Label, Info } from '../components/lib';
-import SaleModal from '../components/SaleModal/SaleModal';
+import {
+  Button,
+  Container,
+  Heading2,
+  Heading3,
+  Label,
+} from '../components/lib';
+import PendingWithdraws from '../components/modals/PendingWithdraws/PendingWithdraws';
 import { useWeb3Context } from '../Context/Web3Context';
-import Modal from '../components/Modal/Modal';
+import useWindowSize from '../hooks/useWindowSize';
 
 const MyProfile = () => {
   const { account, activate } = useWeb3React();
+  const { width: windowWidth } = useWindowSize();
   const {
     injected,
-    state: { isLoggedIn },
+    state: { isLoggedIn, contract },
   } = useWeb3Context();
   const router = useRouter();
   const [myBears, setMyBears] = React.useState([]);
   const [bears, setBears] = React.useState([]);
-  const [showSaleModal, setShowSaleModal] = React.useState(false);
-  const [showSuccessModal, setShowSuccessModal] = React.useState(false);
-  const [activeSaleBear, setActiveSaleBear] = React.useState({});
+  const [activeModal, setActiveModal] = React.useState('false');
 
   React.useEffect(() => {
     if (!isLoggedIn) {
@@ -46,31 +52,28 @@ const MyProfile = () => {
     }
   }, [activate, injected, isLoggedIn]);
 
+  const closeModal = () => setActiveModal('');
+
   return (
     <Layout>
       <Container className="container">
         <Inner>
-          <SaleModal
-            show={showSaleModal}
-            setShow={setShowSaleModal}
-            bear={activeSaleBear}
-            onSuccess={() => {
-              setShowSaleModal(false);
-              setShowSuccessModal(true);
-            }}
+          <PendingWithdraws
+            show={activeModal === 'withdraws'}
+            handleCloseModal={closeModal}
+            account={account}
+            contract={contract}
           />
-          <Modal
-            showModal={showSuccessModal}
-            setShowModal={setShowSuccessModal}
-          >
-            <Heading3>Success!</Heading3>
-            <Info size="2" className="mt-2">
-              Bear # {activeSaleBear.index} succesfully offered to sale
-            </Info>
-          </Modal>
-
           <Heading2>My Profile</Heading2>
           <Heading3 className="account">{account}</Heading3>
+          <Button
+            className="mt-2"
+            onClick={async () => {
+              setActiveModal('withdraws');
+            }}
+          >
+            Check pending withdraws
+          </Button>
           <ProfileGrid>
             <div>
               <Label size="2.5">Bears you own</Label>
@@ -84,15 +87,15 @@ const MyProfile = () => {
           <Heading3 className="mt-4">Your Bears:</Heading3>
           <BearsGrid>
             {myBears.map(bear => (
-              <BearCard
-                bear={bear}
-                key={bear.index}
-                isProfile
-                onSaleClick={() => {
-                  setActiveSaleBear(bear);
-                  setShowSaleModal(true);
-                }}
-              />
+              <Link href={`bears/${bear.index}`} key={bear.index}>
+                <a href="/get-bear">
+                  <BearCard
+                    bear={bear}
+                    key={bear.index}
+                    mobile={windowWidth < 700}
+                  />
+                </a>
+              </Link>
             ))}
           </BearsGrid>
         </Inner>

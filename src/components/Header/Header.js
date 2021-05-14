@@ -18,7 +18,7 @@ Router.onRouterChangeError = () => NProgress.done();
 
 const Header = () => {
   const { account, deactivate } = useWeb3React();
-  const { setState } = useWeb3Context();
+  const { dispatch } = useWeb3Context();
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -67,7 +67,7 @@ const Header = () => {
                 <NavButton
                   onClick={() => {
                     deactivate();
-                    setState({ isLoggedIn: false });
+                    dispatch({ type: 'logout' });
                   }}
                 >
                   Sign out

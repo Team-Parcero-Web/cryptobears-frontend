@@ -17,13 +17,13 @@ import {
 import { useWeb3Context } from '../Context/Web3Context';
 import useWindowSize from '../hooks/useWindowSize';
 import addBNB from '../utils/addBNB';
-import Modal from '../components/Modal/Modal';
+import Modal from '../components/modals/Modal/Modal';
 
 const MyProfile = () => {
   const { account, library, chainId, activate } = useWeb3React();
   const {
     injected,
-    state: { contract, bearValue, isMetamask, isLoggedIn },
+    state: { contract, bearPrice, isMetamask, isLoggedIn },
   } = useWeb3Context();
 
   const router = useRouter();
@@ -90,7 +90,7 @@ const MyProfile = () => {
 
           {showConfetti && (
             <Heading2 className="success">
-              Congrats! you've got bear number {bearIndex} !!
+              Congrats! you&apos;ve got bear number {bearIndex} !!
             </Heading2>
           )}
           <BuyGrid>
@@ -111,7 +111,10 @@ const MyProfile = () => {
               <BuyDetails>
                 <p className="price-title">Current price</p>
                 <div>
-                  <p className="bnb-price"> BNB 0.0375 </p>
+                  <p className="bnb-price">
+                    {' '}
+                    BNB {bearPrice / 1000000000000000000}
+                  </p>
                   <p className="usd-price">($10)</p>
                 </div>
                 <BuyButton
@@ -157,7 +160,7 @@ const MyProfile = () => {
           <BuyDescription>
             <p>
               The bear you are about to get is an <span>unique</span> friend
-              that's ready to go have fun with you
+              that&apos;s ready to go have fun with you
             </p>
             <img
               className="gold-paw paw"
