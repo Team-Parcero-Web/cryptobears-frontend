@@ -53,7 +53,7 @@ const MyProfile = () => {
       setShowConfetti(false);
       await contract.methods
         .getBear()
-        .send({ from: account, value: 10 })
+        .send({ from: account, value: bearPrice })
         .then(data => {
           setBearIndex(data.events.Assign.returnValues.bearIndex);
           setShowConfetti(true);
