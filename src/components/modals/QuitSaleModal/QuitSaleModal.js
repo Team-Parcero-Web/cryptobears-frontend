@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Heading3, Info } from '../../lib';
+import { Button, Heading3, Info, SecondaryButton } from '../../lib';
 import Modal from '../Modal/Modal';
 import { quitBearSale } from '../../../hooks/contractActions';
 
@@ -21,8 +21,18 @@ const QuitSaleModal = ({
         <Info size="2" className="mt-2">
           Are you sure you want to remove bear #{bear?.index} from sale?
         </Info>
+        <SecondaryButton
+          className="mr-1"
+          size="small"
+          onClick={handleCloseModal}
+          disabled={loading}
+          autoFocus
+        >
+          Cancel
+        </SecondaryButton>
         <Button
           className="mt-2"
+          size="small"
           isLoading={loading}
           disabled={loading}
           onClick={async () => {

@@ -16,8 +16,13 @@ const Banner = () => {
       <Container>
         <MainContent>
           <div className="left">
-            <Heading xlarge>CryptoBears.</Heading>
-            <Heading>Welcome to the forest of these restless bears.</Heading>
+            <Heading xlarge className="main">
+              CryptoBears
+              <span> NFTs.</span>
+            </Heading>
+            <Heading className="secondary">
+              Welcome to the forest of these restless bears.
+            </Heading>
             <Link href="/get-bear">
               <a href="/get-bear">
                 <GetButton className="mt-4">Befriend a bear</GetButton>
@@ -51,6 +56,18 @@ const MainContent = styled(CenteredContent)`
   .left {
     max-width: 60%;
     position: relative;
+
+    .main {
+      font-weight: 600;
+
+      span {
+        color: ${({ theme }) => theme.colors.purple};
+      }
+    }
+
+    .secondary {
+      font-weight: 400;
+    }
     img {
       width: 100px;
       height: auto;

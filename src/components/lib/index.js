@@ -48,6 +48,7 @@ export const Heading = styled.h1`
   line-height: 1.2;
   letter-spacing: -1px;
   word-wrap: break-word;
+  word-break: break-word;
   @media (max-width: 768px) {
     font-size: 4rem;
     line-height: 1.2;
@@ -103,17 +104,16 @@ export const Info = styled.p`
 
 export const BaseButton = styled.button`
   padding: 14px 10px;
-  padding: ${({ size }) => (size === 'small' ? '2px 8px' : '14px 10px')};
+  padding: ${({ size }) => (size === 'small' ? '4px 8px' : '14px 10px')};
   min-width: 100px;
   background-color: ${({ theme }) => theme.colors.purple};
   color: white;
-  border: none;
+  border: 1px solid ${({ theme }) => theme.colors.purple};
   font-weight: 600;
   font-size: 18px;
   transition: all 0.2s ease-out;
   border-radius: 3px;
-  min-height: ${({ size }) => (size === 'small' ? '20px' : '50px')};
-  height: ${({ size }) => (size === 'small' ? '35px' : 'auto')};
+  min-height: ${({ size }) => (size === 'small' ? '40px' : '50px')};
   cursor: pointer;
 
   &:hover {
@@ -138,6 +138,15 @@ export const BaseButton = styled.button`
       border: none !important;
       &:hover {
         background: #c1c1c1 !important;
+      }
+    `}
+
+  ${props =>
+    props.isLoading &&
+    css`
+      transform: translateY(7px);
+      :hover {
+        transform: translateY(4px);
       }
     `}
 

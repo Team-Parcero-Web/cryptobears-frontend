@@ -1,20 +1,22 @@
-import React from 'react';
 import { useWeb3React } from '@web3-react/core';
+import React from 'react';
 import styled from 'styled-components';
+import Web3 from 'web3';
 import { useWeb3Context } from '../../../Context/Web3Context';
+import { offerBearForSale } from '../../../hooks/contractActions';
 import {
   Button,
   FormControl,
   Heading4,
+  Info,
   Input,
   Label,
   SecondaryButton,
-  Info,
 } from '../../lib';
 import Modal from '../Modal/Modal';
 
 const SaleModal = ({ show, handleCloseModal, bear, onSuccess }) => {
-  const { account } = useWeb3React();
+  const { account, library } = useWeb3React();
   const {
     state: { contract },
   } = useWeb3Context();
@@ -33,14 +35,14 @@ const SaleModal = ({ show, handleCloseModal, bear, onSuccess }) => {
       setError('Please insert correct a value');
       return;
     }
+    if (!price || +price < 0.00001) {
+      setError('Price should be greater than 0.00001');
+      return;
+    }
     try {
       setLoading(true);
-      await contract.methods
-        .offerBearForSale(+bear.index, +price)
-        .send({ from: account })
-        .then(() => {
-          onSuccess();
-        })
+      await offerBearForSale(+bear.index, price, contract, account)
+        .then(onSuccess)
         .catch(() => setLoading(false));
       setLoading(false);
     } catch (methodError) {

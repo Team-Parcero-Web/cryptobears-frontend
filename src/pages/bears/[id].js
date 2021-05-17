@@ -26,8 +26,12 @@ import {
   checkBearBidStatus,
   checkBearSaleStatus,
   getBearOwner,
+  fromWei,
+  acceptBidForBear,
+  buyBear,
 } from '../../hooks/contractActions';
 import addBNB from '../../utils/addBNB';
+import ConfirmationModal from '../../components/modals/ConfirmationModal/ConfirmationModal';
 
 const BearDetail = () => {
   const router = useRouter();
@@ -45,10 +49,10 @@ const BearDetail = () => {
   } = useWeb3Context();
 
   React.useEffect(() => {
+    if (id) client(`bears/?index=${id}`).then(data => setBear(data[0]));
     if (id && chainId === +process.env.NEXT_PUBLIC_CHAIN_ID) {
-      client(`bears/?index=${id}`).then(data => setBear(data[0]));
-      checkBearBidStatus(id, contract).then(setBearBids);
-      checkBearSaleStatus(id, contract).then(setBearSales);
+      checkBearBidStatus(id, contract).then(data => setBearBids(data));
+      checkBearSaleStatus(id, contract).then(data => setBearSales(data));
       getBearOwner(id, contract).then(setOwner);
     }
   }, [id, contract, chainId]);
@@ -57,28 +61,30 @@ const BearDetail = () => {
 
   return (
     <Layout>
-      <Modal
-        showModal={chainId !== +process.env.NEXT_PUBLIC_CHAIN_ID}
-        setShowModal={() => {}}
-      >
-        <p className="text-3"> Please Change to BNB SmartChain</p>
-        <div>
-          <Link href="/">
-            <a href="/">
-              <SecondaryButton size="small" className="text-2 mt-2 mr-1">
-                Return to home
-              </SecondaryButton>
-            </a>
-          </Link>
-          <Button
-            size="small"
-            className="text-2 mt-2"
-            onClick={async () => addBNB(library, activate, injected)}
-          >
-            Add BNB SmartChain
-          </Button>
-        </div>
-      </Modal>
+      {bear && (
+        <Modal
+          showModal={chainId !== +process.env.NEXT_PUBLIC_CHAIN_ID}
+          handleCloseModal={() => {}}
+        >
+          <p className="text-3"> Please Change to BNB SmartChain</p>
+          <div>
+            <Link href="/">
+              <a href="/">
+                <SecondaryButton size="small" className="text-2 mt-2 mr-1">
+                  Return to home
+                </SecondaryButton>
+              </a>
+            </Link>
+            <Button
+              size="small"
+              className="text-2 mt-2"
+              onClick={async () => addBNB(library, activate, injected)}
+            >
+              Add BNB SmartChain
+            </Button>
+          </div>
+        </Modal>
+      )}
 
       <SaleModal
         show={activeModal === 'sale'}
@@ -114,7 +120,51 @@ const BearDetail = () => {
         show={activeModal === 'bid'}
         handleCloseModal={closeModal}
         bear={bear}
+        currentBid={bearBids.value}
+        onSuccess={async () => {
+          checkBearBidStatus(id, contract).then(setBearBids);
+        }}
       />
+      {bearBids.value && (
+        <>
+          <ConfirmationModal
+            show={activeModal === 'acceptBid'}
+            handleCloseModal={closeModal}
+            title="Accept bid"
+            message={`Are you sure you want to accept this bid for ${fromWei(
+              bearBids.value,
+            )}?`}
+            confirmText="Yes, accept bid"
+            onAccept={() =>
+              acceptBidForBear(id, fromWei(bearBids.value), contract, account)
+            }
+            onSuccess={() => checkBearBidStatus(id, contract).then(setBearBids)}
+          />
+
+          <ConfirmationModal
+            show={activeModal === 'currentBidder'}
+            handleCloseModal={closeModal}
+            title="Are you sure?"
+            message="You are the current bidder of this bear, are you sure you want to bid again?"
+            confirmText="Yes, place another bid"
+            onSuccess={() => setActiveModal('bid')}
+          />
+          <ConfirmationModal
+            show={activeModal === 'buyBear'}
+            handleCloseModal={closeModal}
+            title="Are you sure?"
+            message={`Are you sure you want to buy this bear for ${fromWei(
+              bearSales.minValue,
+            )} BNB?`}
+            confirmText="Yes, buy bear"
+            onAccept={() => buyBear(+id, bearSales.minValue, contract, account)}
+            onSuccess={() => {
+              checkBearBidStatus(id, contract).then(setBearBids);
+              checkBearSaleStatus(id, contract).then(setBearSales);
+            }}
+          />
+        </>
+      )}
 
       <Container>
         <Inner>
@@ -138,6 +188,18 @@ const BearDetail = () => {
 
                 <Label className="mt-3 bold">Is for sale?</Label>
                 <p className="text-2">{bearSales.isForSale ? 'Yes' : 'No'}</p>
+                {bearSales.isForSale && (
+                  <Heading4 className="mt-3">
+                    <span className="sale-price-title"> Sale price: </span>
+
+                    {Intl.NumberFormat(navigator.language, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 20,
+                    }).format(fromWei(bearSales.minValue))}
+
+                    <span className="bnb">BNB</span>
+                  </Heading4>
+                )}
               </div>
             </ProfileLeft>
             <ProfileRight>
@@ -156,20 +218,35 @@ const BearDetail = () => {
                 <Label className="mt-5 bold">Highest bid:</Label>
                 <p className="text-2">
                   {bearBids.value ? (
-                    `${+bearBids.value / 1000000000000000000} BNB`
+                    `${fromWei(bearBids.value)} BNB`
                   ) : (
                     <Skeleton width={100} />
                   )}
                 </p>
                 {bearSales.isForSale && owner !== account && (
-                  <Button
-                    className="mt-3"
-                    onClick={() => {
-                      setActiveModal('bid');
-                    }}
-                  >
-                    Place bid
-                  </Button>
+                  <>
+                    <Button
+                      className="mt-3 mr-3"
+                      onClick={() => {
+                        setActiveModal('buyBear');
+                      }}
+                    >
+                      Buy bear
+                    </Button>
+
+                    <Button
+                      className="mt-3 mr-3"
+                      onClick={() => {
+                        if (bearBids.bidder === account) {
+                          setActiveModal('currentBidder');
+                        } else {
+                          setActiveModal('bid');
+                        }
+                      }}
+                    >
+                      Place bid
+                    </Button>
+                  </>
                 )}
 
                 {!bearSales.isForSale && owner === account && (
@@ -196,12 +273,23 @@ const BearDetail = () => {
 
                 {bearBids.hasBid && owner === account && (
                   <Button
-                    className="mt-3"
+                    className="mt-3 mr-3"
                     onClick={() => {
-                      setActiveModal('quitSale');
+                      setActiveModal('acceptBid');
                     }}
                   >
                     Accept bid
+                  </Button>
+                )}
+
+                {bearBids.hasBid && bearBids.bidder === account && (
+                  <Button
+                    className="mt-3 mr-3"
+                    onClick={() => {
+                      setActiveModal('acceptBid');
+                    }}
+                  >
+                    Remove bid
                   </Button>
                 )}
               </div>
@@ -240,6 +328,14 @@ const ProfileLeft = styled.div`
   .grey {
     padding-top: 11rem !important;
     padding: 2rem;
+
+    .sale-price-title {
+      color: ${({ theme }) => theme.colors.purple2};
+    }
+    .bnb {
+      font-weight: 400;
+      font-size: 1.6rem;
+    }
   }
   .bear-img-wrapper {
     width: 150px;
