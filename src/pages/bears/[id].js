@@ -29,6 +29,7 @@ import {
   fromWei,
   acceptBidForBear,
   buyBear,
+  withdrawBidForBear,
 } from '../../hooks/contractActions';
 import addBNB from '../../utils/addBNB';
 import ConfirmationModal from '../../components/modals/ConfirmationModal/ConfirmationModal';
@@ -162,6 +163,20 @@ const BearDetail = () => {
               checkBearBidStatus(id, contract).then(setBearBids);
               checkBearSaleStatus(id, contract).then(setBearSales);
             }}
+            successMessage="Bear succesfully bought!"
+          />
+          <ConfirmationModal
+            show={activeModal === 'removeBid'}
+            handleCloseModal={closeModal}
+            title="Are you sure?"
+            message="Are you sure you want to remove the bid for this bear?"
+            confirmText="Yes, remove bid"
+            onAccept={() => withdrawBidForBear(+id, contract, account)}
+            onSuccess={() => {
+              checkBearBidStatus(id, contract).then(setBearBids);
+              checkBearSaleStatus(id, contract).then(setBearSales);
+            }}
+            successMessage="Bid succesfully removed"
           />
         </>
       )}
@@ -286,7 +301,7 @@ const BearDetail = () => {
                   <Button
                     className="mt-3 mr-3"
                     onClick={() => {
-                      setActiveModal('acceptBid');
+                      setActiveModal('removeBid');
                     }}
                   >
                     Remove bid

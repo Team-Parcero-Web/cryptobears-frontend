@@ -101,6 +101,17 @@ export async function buyBear(id, price, contract, account) {
   }
 }
 
+export async function withdrawBidForBear(id, contract, account) {
+  try {
+    const withdrawResponse = await contract?.methods
+      .withdrawBidForBear(id)
+      .send({ from: account });
+    return withdrawResponse;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
 export function toWei(amount) {
   return Web3.utils.toWei(amount || '0');
 }

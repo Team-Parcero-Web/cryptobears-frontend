@@ -9,7 +9,7 @@ const ConfirmationModal = ({
   onAccept = null,
   title,
   message,
-  sucessMessage,
+  successMessage,
   confirmText = 'Yes',
   onSuccess = () => {},
 }) => {
@@ -69,8 +69,19 @@ const ConfirmationModal = ({
       >
         <Heading3>Success!</Heading3>
         <Info size="2" className="mt-2">
-          {sucessMessage}
+          {successMessage}
         </Info>
+        <Button
+          className="mr-1 mt-2"
+          size="small"
+          onClick={() => {
+            setShowSuccessModal(false);
+          }}
+          disabled={loading}
+          autoFocus
+        >
+          Accept
+        </Button>
       </Modal>
     </Wrapper>
   );
