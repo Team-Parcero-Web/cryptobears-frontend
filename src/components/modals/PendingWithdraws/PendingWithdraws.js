@@ -35,6 +35,7 @@ const PendingWithdraws = ({ show, handleCloseModal, account, contract }) => {
         showModal={show}
         handleCloseModal={handleCloseModal}
         modalClassName="pending-modal"
+        backdropClosable
       >
         <Heading3>Pending withdraws</Heading3>
         <Info size="2" className="mt-1 info">
