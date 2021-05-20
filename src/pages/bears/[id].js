@@ -99,6 +99,7 @@ const BearDetail = () => {
       <Modal
         showModal={activeModal === 'success'}
         handleCloseModal={closeModal}
+        backdropClosable
       >
         <Heading3>Success!</Heading3>
         <Info size="2" className="mt-2">

@@ -108,6 +108,7 @@ const BidModal = ({ show, handleCloseModal, bear, onSuccess, currentBid }) => {
       <Modal
         showModal={showSuccessModal}
         handleCloseModal={() => setShowSuccessModal(false)}
+        backdropClosable
       >
         <Heading3>Success!</Heading3>
         <Info size="2" className="mt-2">
