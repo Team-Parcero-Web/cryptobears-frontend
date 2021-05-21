@@ -10,5 +10,6 @@ export const theme = {
     lightGrey: '#f4f4f4',
     gold: '#FCB031',
     darkGold: '#E29E2C',
+    success: '#4bb543',
   },
 };

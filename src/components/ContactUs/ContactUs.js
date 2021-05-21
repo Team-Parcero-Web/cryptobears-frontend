@@ -1,18 +1,19 @@
 import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import styled from 'styled-components';
+import { client } from '../../api/client';
+import { isEmail } from '../../utils/validations';
 import {
-  CenteredContent,
-  Card,
-  Input,
-  FormControl,
-  Label,
-  TextArea,
   Button,
+  Card,
+  CenteredContent,
+  FormControl,
   Heading2,
   Info,
+  Input,
+  Label,
+  TextArea,
 } from '../lib';
-import { isEmail } from '../../utils/validations';
-import { client } from '../../api/client';
 
 const ContactUs = () => {
   const [formData, setFormData] = React.useState({
@@ -39,7 +40,7 @@ const ContactUs = () => {
       return;
     }
     setLoading(true);
-    client('contact/', { data: { fullName, email, message } })
+    client('contact/', { data: { name: fullName, email, message } })
       .then(() => {
         setLoading(false);
         setSuccess('Message succesfully sent!');
@@ -50,6 +51,17 @@ const ContactUs = () => {
         setError('Unexpected error, please try again');
       });
   };
+
+  const successAnimation = {
+    visible: {
+      opacity: 1,
+      transform: 'scale(1)',
+    },
+    hidden: {
+      opacity: 0,
+      transform: 'scale(0.8)',
+    },
+  };
   return (
     <Wrapper id="contact">
       <Inner>
@@ -59,9 +71,12 @@ const ContactUs = () => {
             <FormControl>
               <Label htmlFor="fullname">Full Name</Label>
               <Input
-                onChange={e =>
-                  setFormData({ ...formData, fullName: e.target.value })
-                }
+                onChange={e => {
+                  if (success) {
+                    setSuccess(false);
+                  }
+                  setFormData({ ...formData, fullName: e.target.value });
+                }}
                 value={formData.fullName}
                 type="text"
                 placeholder="Full Name"
@@ -72,9 +87,12 @@ const ContactUs = () => {
             <FormControl>
               <Label htmlFor="email">Email</Label>
               <Input
-                onChange={e =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
+                onChange={e => {
+                  if (success) {
+                    setSuccess(false);
+                  }
+                  setFormData({ ...formData, email: e.target.value });
+                }}
                 value={formData.email}
                 type="text"
                 placeholder="name@email.com"
@@ -85,9 +103,12 @@ const ContactUs = () => {
             <FormControl>
               <Label htmlFor="message">Message</Label>
               <TextArea
-                onChange={e =>
-                  setFormData({ ...formData, message: e.target.value })
-                }
+                onChange={e => {
+                  if (success) {
+                    setSuccess(false);
+                  }
+                  setFormData({ ...formData, message: e.target.value });
+                }}
                 value={formData.message}
                 type="text"
                 placeholder="Your message"
@@ -101,20 +122,32 @@ const ContactUs = () => {
               className="mt-3 w-3"
               onClick={handleSendMail}
               isLoading={loading}
-              isDisabled={loading}
+              disabled={loading}
             >
               Submit
             </Button>
+
             {error && (
               <Info className="error" size="2">
                 {error}
               </Info>
             )}
-            {success && (
-              <Info className="success" size="2">
-                {success}
-              </Info>
-            )}
+            <AnimatePresence>
+              {success && (
+                <MotionInfo
+                  className="success-message mt-2"
+                  size="2"
+                  variants={successAnimation}
+                  aria-label="modal-"
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  role="alert"
+                >
+                  {success}
+                </MotionInfo>
+              )}
+            </AnimatePresence>
           </form>
         </ContactCard>
       </Inner>
@@ -147,4 +180,13 @@ const ContactCard = styled(Card)`
   @media (max-width: 976px) {
     width: 100%;
   }
+
+  .success-message {
+    background-color: ${({ theme }) => theme.colors.success} !important;
+    color: white;
+    border-radius: 4px;
+    padding: 0.5rem 0;
+  }
 `;
+
+const MotionInfo = motion(Info);

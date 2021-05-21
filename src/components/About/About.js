@@ -69,16 +69,6 @@ const About = () => {
                 <GetButton className="mt-4">Befriend a bear</GetButton>
               </a>
             </Link>
-
-            {!account && (
-              <Button
-                className="mt-1"
-                onClick={handleLogin}
-                style={{ zIndex: 99 }}
-              >
-                login
-              </Button>
-            )}
           </Content>
         </Inner>
       </Wrapper>
